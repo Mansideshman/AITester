@@ -169,6 +169,8 @@ The project is configured with:
 - Integration testing
 - iframe and frame handling (proj7_iframe.spec.ts)
 - Hover interactions and JavaScript alerts (proj7_hover_JS_alerts.spec.ts)
+- SVG element testing and interactions (proj8_SVG.spec.ts)
+- Shadow DOM element testing (proj9_shadowDOM.spec.ts)
 
 ## 🛠️ Development
 
@@ -259,12 +261,14 @@ Developed for automated testing excellence.
 
 ---
 
-**Last Updated**: May 15, 2026  
+**Last Updated**: May 18, 2026  
 **Status**: Production Ready ✅  
-**Latest Commit**: proj7_hover_JS_alerts.spec.ts test file added
+**Latest Commit**: proj8_SVG.spec.ts and proj9_shadowDOM.spec.ts test files added
 
 ## 📝 Recent Updates
 
 - **Console Output Fix**: Updated playwright.config.ts with `list` reporter to display console.log output
 - **proj7_iframe.spec.ts**: Fixed syntax errors and added iframe/frame element validation with proper console logging
 - **proj7_hover_JS_alerts.spec.ts**: Added hover interactions and JavaScript alert handling test scenarios
+- **proj8_SVG.spec.ts**: Added SVG element testing and interactions
+- **proj9_shadowDOM.spec.ts**: Fixed strict mode violation in getByPlaceholder locator - changed to use element ID (#kils) for better locator specificity and reliability
