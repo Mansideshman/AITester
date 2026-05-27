@@ -100,6 +100,10 @@ open utils/reports/allure/index.html
 │   ├── 11_Alerts/                      # Alert handling
 │   ├── 12_SVG/                         # SVG element testing
 │   └── Assigned_Task/                  # Project assignments
+├── TTAcartProject/                     # TTA Cart automation project
+│   ├── Pages/                          # Page object models
+│   ├── Tests/                          # Cart test suite
+│   └── .git/                           # Submodule or local git repo
 ├── utils/                              # Utility functions and helpers
 │   └── reports/                        # Report outputs
 │       ├── tta/                        # CustomTTA reports
@@ -171,6 +175,21 @@ The project is configured with:
 - Hover interactions and JavaScript alerts (proj7_hover_JS_alerts.spec.ts)
 - SVG element testing and interactions (proj8_SVG.spec.ts)
 - Shadow DOM element testing (proj9_shadowDOM.spec.ts)
+
+## 🛒 TTAcartProject
+
+A dedicated e-commerce shopping cart automation test suite built with Playwright and TypeScript:
+
+**Features:**
+- Shopping cart functionality testing
+- Product selection and validation
+- Cart operations (add, remove, update quantities)
+- Page Object Model pattern implementation
+- Comprehensive test coverage
+
+**Location:** `TTAcartProject/`
+- **Pages/** - Page object models for cart pages
+- **Tests/** - Test cases for cart functionality
 
 ## 🛠️ Development
 
@@ -261,12 +280,13 @@ Developed for automated testing excellence.
 
 ---
 
-**Last Updated**: May 18, 2026  
+**Last Updated**: May 27, 2026  
 **Status**: Production Ready ✅  
-**Latest Commit**: proj8_SVG.spec.ts and proj9_shadowDOM.spec.ts test files added
+**Latest Commit**: TTAcartProject added - e-commerce cart automation test suite
 
 ## 📝 Recent Updates
 
+- **TTAcartProject**: New e-commerce shopping cart automation test suite added with Page Object Model pattern
 - **Console Output Fix**: Updated playwright.config.ts with `list` reporter to display console.log output
 - **proj7_iframe.spec.ts**: Fixed syntax errors and added iframe/frame element validation with proper console logging
 - **proj7_hover_JS_alerts.spec.ts**: Added hover interactions and JavaScript alert handling test scenarios
