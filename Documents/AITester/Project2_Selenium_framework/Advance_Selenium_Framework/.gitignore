@@ -1,0 +1,40 @@
+# Ignore Maven build files
+target/
+*.jar
+*.war
+
+# Ignore IDE files
+.idea/
+.project
+.settings/
+.classpath
+*.iml
+.vscode/
+
+# Ignore Eclipse
+.metadata/
+bin/
+.DS_Store
+
+# Ignore test outputs
+test-output/
+logs/
+*.log
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore backup files
+*.bak
+*.swp
+*.swo
+*~
+
+# Ignore environment files
+.env
+.env.local
+*.properties.local
+
+# Ignore node modules (if using JS tools)
+node_modules/
