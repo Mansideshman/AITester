@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="RestAssuredAPIFrameworkSuite" verbose="1" parallel="false">
+    <test name="API Regression Tests">
+        <classes>
+            <class name="com.thetestingacademy.tests.crud.TestHealthCheck"/>
+            <class name="com.thetestingacademy.tests.crud.TestCreateToken"/>
+            <class name="com.thetestingacademy.tests.crud.TestCreateBooking"/>
+            <class name="com.thetestingacademy.tests.e2e_integration.TestIntegrationFlow1"/>
+        </classes>
+    </test>
+</suite>
