@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing and reports
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+allure-results/
+allure-report/
+
+# Build and IDE
+dist/
+build/
+.next/
+.vite/
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.classpath
+.project
+.settings/
+bin/
+target/
+
+# Environments
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env.local
+
+# OS files
+.DS_Store
+Thumbs.db

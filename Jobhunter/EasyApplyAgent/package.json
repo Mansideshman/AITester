@@ -1,0 +1,21 @@
+{
+  "name": "easy-apply-agent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Human-in-the-loop LinkedIn Easy Apply assistant. Fills out applications and always waits for explicit confirmation before submitting.",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "playwright install chromium"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "playwright": "^1.49.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

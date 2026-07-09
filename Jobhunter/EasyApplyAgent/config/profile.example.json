@@ -1,0 +1,15 @@
+{
+  "search": {
+    "keywords": "QA Automation Engineer",
+    "location": "Remote",
+    "easyApplyOnly": true
+  },
+  "resumePath": "/absolute/path/to/your/resume.pdf",
+  "resumeLabel": "Resume_v2",
+  "phone": "",
+  "coverLetterDefault": "",
+  "answers": {
+    "Are you legally authorized to work in the United States?": "Yes",
+    "Will you now or in the future require sponsorship for employment visa status?": "No"
+  }
+}

@@ -1,0 +1,10 @@
+# Secrets - never commit LinkedIn credentials
+EasyApplyAgent/.env
+EasyApplyAgent/.auth/
+EasyApplyAgent/output/
+EasyApplyAgent/node_modules/
+EasyApplyAgent/dist/
+*.log
+
+# Editor / OS
+.DS_Store

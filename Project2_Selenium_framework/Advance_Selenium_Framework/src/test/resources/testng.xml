@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="CRM Automation Test Suite" parallel="tests" thread-count="1">
+
+    <listeners>
+        <listener class-name="com.crm.automation.listeners.TestListener" />
+    </listeners>
+
+    <!-- Login Tests -->
+    <test name="Login Tests" enabled="true">
+        <classes>
+            <class name="com.crm.automation.tests.LoginTests" />
+        </classes>
+    </test>
+
+    <!-- Additional test suites can be added here -->
+    <!-- 
+    <test name="Home Page Tests" enabled="true">
+        <classes>
+            <class name="com.crm.automation.tests.HomePageTests" />
+        </classes>
+    </test>
+
+    <test name="Salesforce Tests" enabled="true">
+        <classes>
+            <class name="com.crm.automation.tests.SalesforceTests" />
+        </classes>
+    </test>
+    -->
+
+</suite>
