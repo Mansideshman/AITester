@@ -44,11 +44,28 @@ npm install
 npm run dev          # http://localhost:5173
 ```
 
-LangFlow must be running at `http://localhost:7861` with the agent flow imported. All connection
-settings (base URL, `x-api-key`, flow ID, File component IDs) are prefilled and editable in the
-**Connection** panel. Sample inputs live in `flaky_test_analyzer_ai_Agent/ui/samples/`.
+LangFlow must be running with the agent flow imported. All connection settings (base URL, `x-api-key`, flow ID, File component IDs) are prefilled and editable in the **Connection** panel. Sample inputs live in `flaky_test_analyzer_ai_Agent/ui/samples/`.
+
+### Running Langflow with Docker (Recommended)
+
+To run Langflow containerized with persistent storage and auto-login enabled, start the official container:
+
+```bash
+docker run -d \
+  --name langflow \
+  -p 7860:7860 \
+  -v langflow_data:/app/langflow \
+  -e LANGFLOW_CONFIG_DIR=/app/langflow \
+  -e LANGFLOW_AUTO_LOGIN=true \
+  -e LANGFLOW_SUPERUSER=admin \
+  -e LANGFLOW_SUPERUSER_PASSWORD=adminadmin \
+  langflowai/langflow:latest
+```
+
+This starts Langflow in the background at `http://localhost:7860` with administrative credentials pre-seeded. If you use Docker, update the base URL in the UI connection settings to `http://localhost:7860/api/v1`.
 
 ### Example result
+
 
 Two builds compared in the screenshot above:
 
