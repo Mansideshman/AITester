@@ -1867,7 +1867,7 @@
                 "trace_as_metadata": true,
                 "track_in_telemetry": false,
                 "type": "str",
-                "value": "curl -s -u \"thetestingacademy+jira@gmail.com:YOUR_JIRA_API_TOKEN\" \\   -H \"Accept: application/json\" \\   \"https://bugzz.atlassian.net/rest/api/3/issue/VWO-24\""
+                "value": "curl -s -u \"your-email@example.com:YOUR_JIRA_API_TOKEN\" \\   -H \"Accept: application/json\" \\   \"https://bugzz.atlassian.net/rest/api/3/issue/VWO-24\""
               },
               "follow_redirects": {
                 "_input_type": "BoolInput",

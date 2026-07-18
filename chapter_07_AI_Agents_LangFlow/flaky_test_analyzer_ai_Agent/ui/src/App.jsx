@@ -135,7 +135,7 @@ export default function App() {
       </main>
 
       <footer className="page-foot">
-        Local tool · talks directly to LangFlow · The Testing Academy
+        Local tool · talks directly to LangFlow
       </footer>
     </div>
   )

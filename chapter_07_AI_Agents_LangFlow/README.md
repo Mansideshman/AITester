@@ -1,4 +1,4 @@
-# Chapter 05 — AI Agents with LangFlow
+# Chapter 07 — AI Agents with LangFlow
 
 ### What Is LangFlow?
 
