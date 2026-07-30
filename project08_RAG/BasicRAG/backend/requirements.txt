@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+pypdf
+chromadb==0.4.24
+posthog==3.0.2
+pysqlite3-binary; sys_platform == "linux"
+sentence-transformers
+einops
+groq
+python-multipart
+python-docx

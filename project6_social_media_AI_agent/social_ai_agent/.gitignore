@@ -1,0 +1,9 @@
+.env.local
+node_modules/
+.next/
+dist/
+content_calendar.xlsx
+public/images/*.png
+public/images/*.jpg
+public/images/*.jpeg
+public/images/*.webp

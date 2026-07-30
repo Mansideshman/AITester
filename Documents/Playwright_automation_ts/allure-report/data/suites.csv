@@ -1,4 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","372","focused test","chromium","2026-05-06","passed","2026-05-06","","01_Basics/test_annotations.spec.ts","",""
-"verify that the login page works","30155","verify that login works","chromium","2026-05-05","broken","2026-05-05","","05_Allurereporting/login.spec.ts","",""
-"verify that the login page works","30332","verify that login works","chromium","2026-05-06","broken","2026-05-06","","05_Allurereporting/230_login.spec.ts","",""
