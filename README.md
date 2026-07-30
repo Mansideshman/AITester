@@ -1,43 +1,93 @@
 # AITester Workspace
 
-This repository contains multiple test automation projects and frameworks used for API and UI testing.
+A portfolio of QA engineering and applied-AI projects: classic test automation frameworks
+(Selenium, REST Assured, Playwright) alongside AI/LLM-powered tools that generate test
+cases, run retrieval-augmented Q&A, drive multi-agent QA workflows, and automate parts of
+the job-search process. Each project below is independently runnable — see its own README
+for setup.
 
-Projects included:
+## AI Engineering & LLM-Powered Tools
 
-- `Project1_TC_Generator` — Test case generation prompts and templates.
-- `Project2_Selenium_framework` — Advanced Selenium Java framework (TestNG, PageObjects).
-- `Project3_RestAssuredAPIFramework` — REST Assured + TestNG API automation framework. See [Project3_RestAssuredAPIFramework/README.md](Project3_RestAssuredAPIFramework/README.md).
-- `Project4_PlaywrightAPIAutomationFramework` — Playwright API testing scaffold (TypeScript). See [Project4_PlaywrightAPIAutomationFramework/README.md](Project4_PlaywrightAPIAutomationFramework/README.md).
-- `project6_social_media_AI_agent/social_ai_agent` — ContentForge: automated AI content-generation pipeline (Next.js + Groq + Gemini) with a local web dashboard. See [project6_social_media_AI_agent/social_ai_agent/README.md](project6_social_media_AI_agent/social_ai_agent/README.md).
-- `project08_RAG/BasicRAG` — RAG Explorer: a fully-visible Retrieval-Augmented Generation pipeline (FastAPI + React) with multi-format upload (PDF/TXT/MD/DOC/DOCX), local Nomic embeddings, ChromaDB, and Groq answer generation. See [project08_RAG/BasicRAG/README.md](project08_RAG/BasicRAG/README.md).
-- `project08_RAG/Langflow_RAG` — Two exported Langflow naive-RAG flow definitions plus a sample VWO test-case dataset. See [project08_RAG/Langflow_RAG/README.md](project08_RAG/Langflow_RAG/README.md).
+- **[Qualia](https://github.com/Mansideshman/Qualia)** — Production-deployed, full-stack AI QA
+  platform (React 18) with 9 tools spanning the QA lifecycle: JIRA→test-plan generation, test
+  case generation, RICE-POT test strategy docs, release-readiness scoring, Vision-AI defect
+  detection from screenshots, OpenAPI→test-suite generation, and Playwright/Cypress/Selenium
+  code + framework scaffolding. Runs entirely client-side against GROQ's free-tier LLMs (Llama
+  3.3 70B / Llama 4 Scout Vision) with automatic multi-model fallback, and pushes defects
+  straight to Jira, Linear, GitHub, YouTrack, or Azure DevOps. No backend — credentials never
+  leave the browser. Live at [qualiaqa.vercel.app](https://qualiaqa.vercel.app).
+- **[project08_RAG/BasicRAG](project08_RAG/BasicRAG/README.md)** — A fully-visible
+  Retrieval-Augmented Generation pipeline (FastAPI + React) built from scratch: drag-and-drop
+  upload of PDF/TXT/MD/DOC/DOCX, local Nomic embeddings, ChromaDB vector storage, and Groq
+  answer generation, with every pipeline stage (load → chunk → embed → retrieve → generate)
+  visualized live in the UI as it runs.
+- **[project08_RAG/Langflow_RAG](project08_RAG/Langflow_RAG/README.md)** — Two exported
+  Langflow visual RAG flows (baseline vs. an improved multi-branch chunking strategy) plus a
+  500-row sample test-case dataset used to exercise them.
+- **[project_07_AI_Agents_LangFlow](project_07_AI_Agents_LangFlow/README.md)** — QA agents
+  built on Langflow's low-code flow engine, each exposed as a REST endpoint and fronted by a
+  React UI: a **Flaky Test Analyzer** that diffs two Playwright `results.json` runs and
+  separates genuine flakiness from real regressions, and an **API Contract Validator** that
+  checks a live endpoint's response against a JSON Schema via an OpenRouter-hosted DeepSeek
+  model. Includes a documented fix for a real LangFlow persistence bug (SQLite DB silently
+  resetting without an explicit `LANGFLOW_DATABASE_URL` override).
+- **[project6_social_media_AI_agent/social_ai_agent](project6_social_media_AI_agent/social_ai_agent/README.md)**
+  — ContentForge: an automated content-generation pipeline (Next.js 14) that turns one topic
+  into a LinkedIn post, Medium article, Instagram/YouTube scripts, and matching AI-generated
+  images (Groq Llama 3.3 for text, Gemini 2.0 Flash for images), all served through a local
+  dashboard and logged to Excel.
 
-How to run Project3 (Java / Maven):
+## Test Automation Frameworks
 
-```bash
-cd Project3_RestAssuredAPIFramework
-mvn test
-```
+- **[Project2_Selenium_framework](Project2_Selenium_framework/Advance_Selenium_Framework/README.md)** —
+  Enterprise-style Selenium + Java + Maven + TestNG framework for CRM (Salesforce-style)
+  applications: Page Object Model, driver lifecycle management, Log4j2 logging, automatic
+  failure screenshots, plus built-in API (REST Assured) and database validation utilities —
+  not just UI testing.
+- **[Project3_RestAssuredAPIFramework](Project3_RestAssuredAPIFramework/README.md)** —
+  Production-style REST Assured + TestNG API automation framework (Java) with POJO
+  request/response models, custom assertion wrappers, JavaFaker test-data generation, and
+  Allure reporting.
+  ```bash
+  cd Project3_RestAssuredAPIFramework
+  mvn test
+  ```
+- **[Project4_PlaywrightAPIAutomationFramework](Project4_PlaywrightAPIAutomationFramework/README.md)**
+  — Playwright-native API testing framework (TypeScript) using `APIRequestContext`, domain
+  clients, and fixtures.
+  ```bash
+  cd Project4_PlaywrightAPIAutomationFramework
+  npm install && npx playwright install
+  npm run test:api
+  ```
 
-How to run Project4 (Playwright / Node.js):
+## QA Strategy & Prompt Engineering
 
-```bash
-cd Project4_PlaywrightAPIAutomationFramework
-npm install
-npx playwright install
-npm run test:api
-```
+- **[Project1_TC_Generator](Project1_TC_Generator)** — The RICE-POT prompt framework
+  (Role, Instructions, Context, Example, Parameters, Output, Tone) for generating
+  enterprise-grade, traceable functional and non-functional test cases from a PRD, with a
+  worked example against the Restful-Booker API.
+- **[templates](templates)** — Reusable QA reference material: prompt templates for test
+  case, negative-test, security-test, and regression-suite generation, a JIRA/Xray/Zephyr
+  field-mapping spec, an Anti-Hallucination Rules guide, and test strategy/plan/metrics
+  templates used across the other projects in this workspace.
 
-How to run project6 (ContentForge / Next.js — requires Node 18+):
+## AI Agent Tooling (Job Search Automation)
 
-```bash
-cd project6_social_media_AI_agent/social_ai_agent
-npm install
-cp .env.example .env.local   # add GROQ_API_KEY and GEMINI_API_KEY
-npm run dev
-```
+- **[Jobhunter/JobTrackerAI](Jobhunter/JobTrackerAI/README.md)** — Local-first job-application
+  Kanban board (React 19, Vite, TypeScript, Tailwind v4, IndexedDB) tracking
+  Wishlist→Applied→Follow-up→Interview→Offer, with JSON export/import and client-side
+  fit/ATS scoring.
+- **[Jobhunter/EasyApplyAgent](Jobhunter/EasyApplyAgent/README.md)** — Playwright + TypeScript
+  CLI agent that automates LinkedIn's Easy Apply flow with explicit human-in-the-loop
+  safeguards: it never invents screening-question answers and pauses for confirmation before
+  every submission. Exports applied jobs in a schema JobTrackerAI can import directly.
+- **[Resume_tailor](Resume_tailor)** — Claude Agent Skill definitions for resume tailoring
+  (ATS gap analysis against a JD, ranked recommendations, no-fabrication rule) and a
+  content-engine skill that turns one QA topic into a full multi-platform content pack in a
+  consistent brand voice.
 
-Contributions
+## Contributing
 
 - Add new projects under the workspace root and update this README.
 - Follow existing project READMEs for setup and usage.
