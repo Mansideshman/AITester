@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from typing import TypedDict
 
-from .pdf_loader import PageText
+from .document_loader import PageText
 
 
 class Chunk(TypedDict):

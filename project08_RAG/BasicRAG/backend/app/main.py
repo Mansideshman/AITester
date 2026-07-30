@@ -10,16 +10,20 @@ except ImportError:
 
 import logging
 import threading
+from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from . import pipeline
+from . import config, pipeline
+from .document_loader import UnsupportedDocumentError
 from .llm import GroqNotConfiguredError
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("rag-explorer")
+
+config.UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 app = FastAPI(title="RAG Explorer API")
 
@@ -68,6 +72,44 @@ def ingest():
     try:
         return pipeline.ingest(force=True)
     except Exception as exc:  # noqa: BLE001
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.post("/api/upload")
+def upload(file: UploadFile = File(...)):
+    filename = Path(file.filename or "").name
+    if not filename:
+        raise HTTPException(status_code=400, detail="No filename provided")
+
+    ext = Path(filename).suffix.lower()
+    if ext not in config.ALLOWED_UPLOAD_EXTENSIONS:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                f"Unsupported file type '{ext}'. Allowed: "
+                f"{', '.join(sorted(config.ALLOWED_UPLOAD_EXTENSIONS))}"
+            ),
+        )
+
+    contents = file.file.read()
+    size_mb = len(contents) / (1024 * 1024)
+    if size_mb > config.MAX_UPLOAD_MB:
+        raise HTTPException(
+            status_code=400,
+            detail=f"File too large ({size_mb:.1f} MB). Max {config.MAX_UPLOAD_MB} MB.",
+        )
+    if not contents:
+        raise HTTPException(status_code=400, detail="Uploaded file is empty")
+
+    dest = config.UPLOAD_DIR / filename
+    dest.write_bytes(contents)
+
+    try:
+        return pipeline.ingest(force=True, source_path=dest)
+    except UnsupportedDocumentError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except Exception as exc:  # noqa: BLE001
+        logger.exception("Upload ingestion failed")
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 

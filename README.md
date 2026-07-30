@@ -9,6 +9,8 @@ Projects included:
 - `Project3_RestAssuredAPIFramework` — REST Assured + TestNG API automation framework. See [Project3_RestAssuredAPIFramework/README.md](Project3_RestAssuredAPIFramework/README.md).
 - `Project4_PlaywrightAPIAutomationFramework` — Playwright API testing scaffold (TypeScript). See [Project4_PlaywrightAPIAutomationFramework/README.md](Project4_PlaywrightAPIAutomationFramework/README.md).
 - `project6_social_media_AI_agent/social_ai_agent` — ContentForge: automated AI content-generation pipeline (Next.js + Groq + Gemini) with a local web dashboard. See [project6_social_media_AI_agent/social_ai_agent/README.md](project6_social_media_AI_agent/social_ai_agent/README.md).
+- `project08_RAG/BasicRAG` — RAG Explorer: a fully-visible Retrieval-Augmented Generation pipeline (FastAPI + React) with multi-format upload (PDF/TXT/MD/DOC/DOCX), local Nomic embeddings, ChromaDB, and Groq answer generation. See [project08_RAG/BasicRAG/README.md](project08_RAG/BasicRAG/README.md).
+- `project08_RAG/Langflow_RAG` — Two exported Langflow naive-RAG flow definitions plus a sample VWO test-case dataset. See [project08_RAG/Langflow_RAG/README.md](project08_RAG/Langflow_RAG/README.md).
 
 How to run Project3 (Java / Maven):
 

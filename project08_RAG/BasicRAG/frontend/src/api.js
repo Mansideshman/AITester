@@ -20,3 +20,16 @@ export const triggerIngest = () => request("/ingest", { method: "POST" });
 export const resetIngestion = () => request("/reset", { method: "POST" });
 export const askQuestion = (question) =>
   request("/query", { method: "POST", body: JSON.stringify({ question }) });
+
+export async function uploadDocument(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+  const res = await fetch(`${BASE}/upload`, { method: "POST", body: formData });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    const err = new Error(body.detail || `Upload failed (${res.status})`);
+    err.status = res.status;
+    throw err;
+  }
+  return res.json();
+}

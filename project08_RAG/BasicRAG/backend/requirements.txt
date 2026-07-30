@@ -9,3 +9,4 @@ sentence-transformers
 einops
 groq
 python-multipart
+python-docx

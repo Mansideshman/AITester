@@ -1,8 +1,8 @@
 const STEPS = [
   {
     key: "load",
-    label: "Read PDF",
-    detail: (s) => (s.num_pages ? `${s.num_pages} pages · ${s.pdf_name}` : "Waiting..."),
+    label: "Read Document",
+    detail: (s) => (s.num_pages ? `${s.num_pages} pages · ${s.source_name}` : "Waiting..."),
     time: (s) => s.timings_ms?.load_ms,
   },
   {

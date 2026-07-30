@@ -10,7 +10,14 @@ load_dotenv(BACKEND_DIR / ".env")
 
 # --- Source data ---
 DATA_DIR = PROJECT_DIR / "data"
-PDF_PATH = Path(os.getenv("PDF_PATH", str(DATA_DIR / "Product Requirements Document_(PRD)_VWO.com.pdf")))
+DEFAULT_SOURCE_PATH = Path(
+    os.getenv("PDF_PATH", str(DATA_DIR / "Product Requirements Document_(PRD)_VWO.com.pdf"))
+)
+
+# --- Uploads ---
+UPLOAD_DIR = BACKEND_DIR / "uploads"
+ALLOWED_UPLOAD_EXTENSIONS = {".pdf", ".txt", ".md", ".doc", ".docx"}
+MAX_UPLOAD_MB = int(os.getenv("MAX_UPLOAD_MB", "20"))
 
 # --- Chunking ---
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "800"))

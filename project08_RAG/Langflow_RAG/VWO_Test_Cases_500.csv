@@ -1,0 +1,1384 @@
+Scenario,Test Case ID,Test Case,Expected Result,Actual Result,Remarks
+A/B Testing - Create - Valid Data,TC_001,"1. Login to VWO platform.
+2. Navigate to A/B Testing module.
+3. Click 'Create New A/B Test'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",A/B Test is created successfully and appears in the A/B Testing list with status 'Draft'.,,
+A/B Testing - Create - Missing Mandatory Field,TC_002,"1. Navigate to A/B Testing module.
+2. Click 'Create New A/B Test'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the A/B Test.,,
+A/B Testing - Create - Duplicate Name,TC_003,"1. Navigate to A/B Testing module.
+2. Create a A/B Test using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+A/B Testing - Create - Max Character Limit Boundary,TC_004,"1. Navigate to A/B Testing module.
+2. Enter a name for the A/B Test at the maximum allowed character limit.
+3. Click 'Save'.",A/B Test is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+A/B Testing - Create - Special Characters/Emoji in Name,TC_005,"1. Navigate to A/B Testing module.
+2. Enter special characters/emoji in the A/B Test name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+A/B Testing - Create - SQL Injection Attempt,TC_006,"1. Navigate to A/B Testing module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the A/B Test form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+A/B Testing - Create - XSS Script Injection Attempt,TC_007,"1. Navigate to A/B Testing module.
+2. Enter a script tag payload into an input field of the A/B Test form.
+3. Click 'Save' and view the A/B Test.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the A/B Test is viewed.,,
+A/B Testing - Edit - Update Existing Record,TC_008,"1. Navigate to A/B Testing module.
+2. Open an existing A/B Test.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",A/B Test is updated successfully and the changes are reflected immediately in the A/B Testing list/detail view.,,
+A/B Testing - Edit - Restrict Changes While Live,TC_009,"1. Navigate to A/B Testing module.
+2. Open a A/B Test that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live A/B Test and displays an explanatory message.,,
+A/B Testing - Delete - Draft Record,TC_010,"1. Navigate to A/B Testing module.
+2. Select a A/B Test with status 'Draft'.
+3. Click 'Delete' and confirm.",A/B Test is removed from the list and no longer accessible.,,
+A/B Testing - Delete - Restrict Active Record,TC_011,"1. Navigate to A/B Testing module.
+2. Select a A/B Test that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active A/B Test or prompts the user to pause/stop it first.,,
+A/B Testing - Clone/Duplicate Record,TC_012,"1. Navigate to A/B Testing module.
+2. Select an existing A/B Test.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new A/B Test is created with identical configuration and an auto-generated distinct name.,,
+A/B Testing - Archive Record,TC_013,"1. Navigate to A/B Testing module.
+2. Select a completed A/B Test.
+3. Click 'Archive'.",A/B Test is moved to the archived list and no longer appears in the active list.,,
+A/B Testing - Restore Archived Record,TC_014,"1. Navigate to the archived A/B Test list.
+2. Select an archived A/B Test.
+3. Click 'Restore'.",A/B Test is restored to the active list with its original configuration intact.,,
+A/B Testing - Search by Name,TC_015,"1. Navigate to A/B Testing module.
+2. Enter a A/B Test name (full or partial) in the search box.",List is filtered to display only A/B Test records matching the search term.,,
+A/B Testing - Filter by Status,TC_016,"1. Navigate to A/B Testing module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only A/B Test records matching the selected status.,,
+A/B Testing - Sort by Created Date,TC_017,"1. Navigate to A/B Testing module.
+2. Click the 'Created Date' column header to sort.",A/B Test list is sorted correctly in ascending/descending order of creation date.,,
+A/B Testing - Pagination,TC_018,"1. Navigate to A/B Testing module with more than one page of A/B Test records.
+2. Click 'Next Page'.",Next set of A/B Test records is displayed correctly without duplication or omission.,,
+A/B Testing - Permission - Unauthorized Create,TC_019,"1. Login as a user without A/B Testing creation rights.
+2. Attempt to create a new A/B Test.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+A/B Testing - Permission - Read-Only Edit Attempt,TC_020,"1. Login as a read-only user.
+2. Open an existing A/B Test and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+A/B Testing - Cross-Browser Rendering,TC_021,"1. Open the A/B Testing module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a A/B Test.",A/B Test page renders consistently and functions correctly across all supported browsers.,,
+A/B Testing - Mobile/Responsive Rendering,TC_022,"1. Open the A/B Testing module on a mobile device or responsive viewport.
+2. Interact with a A/B Test.",Layout adapts responsively and all A/B Test actions remain usable on smaller screens.,,
+A/B Testing - Data Persistence After Refresh,TC_023,"1. Create/update a A/B Test with valid data.
+2. Refresh the browser page.",All entered data for the A/B Test persists correctly after the page refresh.,,
+A/B Testing - Export Data/Report,TC_024,"1. Navigate to A/B Testing module.
+2. Select a A/B Test.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate A/B Test data in the selected format.,,
+A/B Testing - Real-Time Status Update,TC_025,"1. Open the A/B Testing dashboard in one session.
+2. Change the A/B Test status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+A/B Testing - Concurrent Edit Conflict,TC_026,"1. Open the same A/B Test for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+A/B Testing - Undo Last Action,TC_027,"1. Perform an action (e.g. delete/edit) on a A/B Test.
+2. Click 'Undo' if available within the allowed time window.",The A/B Test reverts to its previous state successfully.,,
+A/B Testing - Audit Log Entry,TC_028,"1. Perform a create/edit/delete action on a A/B Test.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the A/B Test.",,
+A/B Testing - Notification on Status Change,TC_029,"1. Change the status of a A/B Test (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the A/B Test status change.,,
+A/B Testing - Session Timeout During Use,TC_030,"1. Open a A/B Test for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+Split URL Testing - Create - Valid Data,TC_031,"1. Login to VWO platform.
+2. Navigate to Split URL Testing module.
+3. Click 'Create New Split URL Test'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",Split URL Test is created successfully and appears in the Split URL Testing list with status 'Draft'.,,
+Split URL Testing - Create - Missing Mandatory Field,TC_032,"1. Navigate to Split URL Testing module.
+2. Click 'Create New Split URL Test'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the Split URL Test.,,
+Split URL Testing - Create - Duplicate Name,TC_033,"1. Navigate to Split URL Testing module.
+2. Create a Split URL Test using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+Split URL Testing - Create - Max Character Limit Boundary,TC_034,"1. Navigate to Split URL Testing module.
+2. Enter a name for the Split URL Test at the maximum allowed character limit.
+3. Click 'Save'.",Split URL Test is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+Split URL Testing - Create - Special Characters/Emoji in Name,TC_035,"1. Navigate to Split URL Testing module.
+2. Enter special characters/emoji in the Split URL Test name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+Split URL Testing - Create - SQL Injection Attempt,TC_036,"1. Navigate to Split URL Testing module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the Split URL Test form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+Split URL Testing - Create - XSS Script Injection Attempt,TC_037,"1. Navigate to Split URL Testing module.
+2. Enter a script tag payload into an input field of the Split URL Test form.
+3. Click 'Save' and view the Split URL Test.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the Split URL Test is viewed.,,
+Split URL Testing - Edit - Update Existing Record,TC_038,"1. Navigate to Split URL Testing module.
+2. Open an existing Split URL Test.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",Split URL Test is updated successfully and the changes are reflected immediately in the Split URL Testing list/detail view.,,
+Split URL Testing - Edit - Restrict Changes While Live,TC_039,"1. Navigate to Split URL Testing module.
+2. Open a Split URL Test that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live Split URL Test and displays an explanatory message.,,
+Split URL Testing - Delete - Draft Record,TC_040,"1. Navigate to Split URL Testing module.
+2. Select a Split URL Test with status 'Draft'.
+3. Click 'Delete' and confirm.",Split URL Test is removed from the list and no longer accessible.,,
+Split URL Testing - Delete - Restrict Active Record,TC_041,"1. Navigate to Split URL Testing module.
+2. Select a Split URL Test that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active Split URL Test or prompts the user to pause/stop it first.,,
+Split URL Testing - Clone/Duplicate Record,TC_042,"1. Navigate to Split URL Testing module.
+2. Select an existing Split URL Test.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new Split URL Test is created with identical configuration and an auto-generated distinct name.,,
+Split URL Testing - Archive Record,TC_043,"1. Navigate to Split URL Testing module.
+2. Select a completed Split URL Test.
+3. Click 'Archive'.",Split URL Test is moved to the archived list and no longer appears in the active list.,,
+Split URL Testing - Restore Archived Record,TC_044,"1. Navigate to the archived Split URL Test list.
+2. Select an archived Split URL Test.
+3. Click 'Restore'.",Split URL Test is restored to the active list with its original configuration intact.,,
+Split URL Testing - Search by Name,TC_045,"1. Navigate to Split URL Testing module.
+2. Enter a Split URL Test name (full or partial) in the search box.",List is filtered to display only Split URL Test records matching the search term.,,
+Split URL Testing - Filter by Status,TC_046,"1. Navigate to Split URL Testing module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only Split URL Test records matching the selected status.,,
+Split URL Testing - Sort by Created Date,TC_047,"1. Navigate to Split URL Testing module.
+2. Click the 'Created Date' column header to sort.",Split URL Test list is sorted correctly in ascending/descending order of creation date.,,
+Split URL Testing - Pagination,TC_048,"1. Navigate to Split URL Testing module with more than one page of Split URL Test records.
+2. Click 'Next Page'.",Next set of Split URL Test records is displayed correctly without duplication or omission.,,
+Split URL Testing - Permission - Unauthorized Create,TC_049,"1. Login as a user without Split URL Testing creation rights.
+2. Attempt to create a new Split URL Test.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+Split URL Testing - Permission - Read-Only Edit Attempt,TC_050,"1. Login as a read-only user.
+2. Open an existing Split URL Test and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+Split URL Testing - Cross-Browser Rendering,TC_051,"1. Open the Split URL Testing module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a Split URL Test.",Split URL Test page renders consistently and functions correctly across all supported browsers.,,
+Split URL Testing - Mobile/Responsive Rendering,TC_052,"1. Open the Split URL Testing module on a mobile device or responsive viewport.
+2. Interact with a Split URL Test.",Layout adapts responsively and all Split URL Test actions remain usable on smaller screens.,,
+Split URL Testing - Data Persistence After Refresh,TC_053,"1. Create/update a Split URL Test with valid data.
+2. Refresh the browser page.",All entered data for the Split URL Test persists correctly after the page refresh.,,
+Split URL Testing - Export Data/Report,TC_054,"1. Navigate to Split URL Testing module.
+2. Select a Split URL Test.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate Split URL Test data in the selected format.,,
+Split URL Testing - Real-Time Status Update,TC_055,"1. Open the Split URL Testing dashboard in one session.
+2. Change the Split URL Test status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+Split URL Testing - Concurrent Edit Conflict,TC_056,"1. Open the same Split URL Test for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+Split URL Testing - Undo Last Action,TC_057,"1. Perform an action (e.g. delete/edit) on a Split URL Test.
+2. Click 'Undo' if available within the allowed time window.",The Split URL Test reverts to its previous state successfully.,,
+Split URL Testing - Audit Log Entry,TC_058,"1. Perform a create/edit/delete action on a Split URL Test.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the Split URL Test.",,
+Split URL Testing - Notification on Status Change,TC_059,"1. Change the status of a Split URL Test (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the Split URL Test status change.,,
+Split URL Testing - Session Timeout During Use,TC_060,"1. Open a Split URL Test for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+Multivariate Testing - Create - Valid Data,TC_061,"1. Login to VWO platform.
+2. Navigate to Multivariate Testing module.
+3. Click 'Create New Multivariate Test'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",Multivariate Test is created successfully and appears in the Multivariate Testing list with status 'Draft'.,,
+Multivariate Testing - Create - Missing Mandatory Field,TC_062,"1. Navigate to Multivariate Testing module.
+2. Click 'Create New Multivariate Test'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the Multivariate Test.,,
+Multivariate Testing - Create - Duplicate Name,TC_063,"1. Navigate to Multivariate Testing module.
+2. Create a Multivariate Test using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+Multivariate Testing - Create - Max Character Limit Boundary,TC_064,"1. Navigate to Multivariate Testing module.
+2. Enter a name for the Multivariate Test at the maximum allowed character limit.
+3. Click 'Save'.",Multivariate Test is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+Multivariate Testing - Create - Special Characters/Emoji in Name,TC_065,"1. Navigate to Multivariate Testing module.
+2. Enter special characters/emoji in the Multivariate Test name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+Multivariate Testing - Create - SQL Injection Attempt,TC_066,"1. Navigate to Multivariate Testing module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the Multivariate Test form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+Multivariate Testing - Create - XSS Script Injection Attempt,TC_067,"1. Navigate to Multivariate Testing module.
+2. Enter a script tag payload into an input field of the Multivariate Test form.
+3. Click 'Save' and view the Multivariate Test.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the Multivariate Test is viewed.,,
+Multivariate Testing - Edit - Update Existing Record,TC_068,"1. Navigate to Multivariate Testing module.
+2. Open an existing Multivariate Test.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",Multivariate Test is updated successfully and the changes are reflected immediately in the Multivariate Testing list/detail view.,,
+Multivariate Testing - Edit - Restrict Changes While Live,TC_069,"1. Navigate to Multivariate Testing module.
+2. Open a Multivariate Test that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live Multivariate Test and displays an explanatory message.,,
+Multivariate Testing - Delete - Draft Record,TC_070,"1. Navigate to Multivariate Testing module.
+2. Select a Multivariate Test with status 'Draft'.
+3. Click 'Delete' and confirm.",Multivariate Test is removed from the list and no longer accessible.,,
+Multivariate Testing - Delete - Restrict Active Record,TC_071,"1. Navigate to Multivariate Testing module.
+2. Select a Multivariate Test that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active Multivariate Test or prompts the user to pause/stop it first.,,
+Multivariate Testing - Clone/Duplicate Record,TC_072,"1. Navigate to Multivariate Testing module.
+2. Select an existing Multivariate Test.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new Multivariate Test is created with identical configuration and an auto-generated distinct name.,,
+Multivariate Testing - Archive Record,TC_073,"1. Navigate to Multivariate Testing module.
+2. Select a completed Multivariate Test.
+3. Click 'Archive'.",Multivariate Test is moved to the archived list and no longer appears in the active list.,,
+Multivariate Testing - Restore Archived Record,TC_074,"1. Navigate to the archived Multivariate Test list.
+2. Select an archived Multivariate Test.
+3. Click 'Restore'.",Multivariate Test is restored to the active list with its original configuration intact.,,
+Multivariate Testing - Search by Name,TC_075,"1. Navigate to Multivariate Testing module.
+2. Enter a Multivariate Test name (full or partial) in the search box.",List is filtered to display only Multivariate Test records matching the search term.,,
+Multivariate Testing - Filter by Status,TC_076,"1. Navigate to Multivariate Testing module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only Multivariate Test records matching the selected status.,,
+Multivariate Testing - Sort by Created Date,TC_077,"1. Navigate to Multivariate Testing module.
+2. Click the 'Created Date' column header to sort.",Multivariate Test list is sorted correctly in ascending/descending order of creation date.,,
+Multivariate Testing - Pagination,TC_078,"1. Navigate to Multivariate Testing module with more than one page of Multivariate Test records.
+2. Click 'Next Page'.",Next set of Multivariate Test records is displayed correctly without duplication or omission.,,
+Multivariate Testing - Permission - Unauthorized Create,TC_079,"1. Login as a user without Multivariate Testing creation rights.
+2. Attempt to create a new Multivariate Test.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+Multivariate Testing - Permission - Read-Only Edit Attempt,TC_080,"1. Login as a read-only user.
+2. Open an existing Multivariate Test and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+Multivariate Testing - Cross-Browser Rendering,TC_081,"1. Open the Multivariate Testing module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a Multivariate Test.",Multivariate Test page renders consistently and functions correctly across all supported browsers.,,
+Multivariate Testing - Mobile/Responsive Rendering,TC_082,"1. Open the Multivariate Testing module on a mobile device or responsive viewport.
+2. Interact with a Multivariate Test.",Layout adapts responsively and all Multivariate Test actions remain usable on smaller screens.,,
+Multivariate Testing - Data Persistence After Refresh,TC_083,"1. Create/update a Multivariate Test with valid data.
+2. Refresh the browser page.",All entered data for the Multivariate Test persists correctly after the page refresh.,,
+Multivariate Testing - Export Data/Report,TC_084,"1. Navigate to Multivariate Testing module.
+2. Select a Multivariate Test.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate Multivariate Test data in the selected format.,,
+Multivariate Testing - Real-Time Status Update,TC_085,"1. Open the Multivariate Testing dashboard in one session.
+2. Change the Multivariate Test status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+Multivariate Testing - Concurrent Edit Conflict,TC_086,"1. Open the same Multivariate Test for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+Multivariate Testing - Undo Last Action,TC_087,"1. Perform an action (e.g. delete/edit) on a Multivariate Test.
+2. Click 'Undo' if available within the allowed time window.",The Multivariate Test reverts to its previous state successfully.,,
+Multivariate Testing - Audit Log Entry,TC_088,"1. Perform a create/edit/delete action on a Multivariate Test.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the Multivariate Test.",,
+Multivariate Testing - Notification on Status Change,TC_089,"1. Change the status of a Multivariate Test (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the Multivariate Test status change.,,
+Multivariate Testing - Session Timeout During Use,TC_090,"1. Open a Multivariate Test for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+SmartStats Engine - Create - Valid Data,TC_091,"1. Login to VWO platform.
+2. Navigate to SmartStats Engine module.
+3. Click 'Create New SmartStats Report'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",SmartStats Report is created successfully and appears in the SmartStats Engine list with status 'Draft'.,,
+SmartStats Engine - Create - Missing Mandatory Field,TC_092,"1. Navigate to SmartStats Engine module.
+2. Click 'Create New SmartStats Report'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the SmartStats Report.,,
+SmartStats Engine - Create - Duplicate Name,TC_093,"1. Navigate to SmartStats Engine module.
+2. Create a SmartStats Report using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+SmartStats Engine - Create - Max Character Limit Boundary,TC_094,"1. Navigate to SmartStats Engine module.
+2. Enter a name for the SmartStats Report at the maximum allowed character limit.
+3. Click 'Save'.",SmartStats Report is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+SmartStats Engine - Create - Special Characters/Emoji in Name,TC_095,"1. Navigate to SmartStats Engine module.
+2. Enter special characters/emoji in the SmartStats Report name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+SmartStats Engine - Create - SQL Injection Attempt,TC_096,"1. Navigate to SmartStats Engine module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the SmartStats Report form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+SmartStats Engine - Create - XSS Script Injection Attempt,TC_097,"1. Navigate to SmartStats Engine module.
+2. Enter a script tag payload into an input field of the SmartStats Report form.
+3. Click 'Save' and view the SmartStats Report.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the SmartStats Report is viewed.,,
+SmartStats Engine - Edit - Update Existing Record,TC_098,"1. Navigate to SmartStats Engine module.
+2. Open an existing SmartStats Report.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",SmartStats Report is updated successfully and the changes are reflected immediately in the SmartStats Engine list/detail view.,,
+SmartStats Engine - Edit - Restrict Changes While Live,TC_099,"1. Navigate to SmartStats Engine module.
+2. Open a SmartStats Report that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live SmartStats Report and displays an explanatory message.,,
+SmartStats Engine - Delete - Draft Record,TC_100,"1. Navigate to SmartStats Engine module.
+2. Select a SmartStats Report with status 'Draft'.
+3. Click 'Delete' and confirm.",SmartStats Report is removed from the list and no longer accessible.,,
+SmartStats Engine - Delete - Restrict Active Record,TC_101,"1. Navigate to SmartStats Engine module.
+2. Select a SmartStats Report that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active SmartStats Report or prompts the user to pause/stop it first.,,
+SmartStats Engine - Clone/Duplicate Record,TC_102,"1. Navigate to SmartStats Engine module.
+2. Select an existing SmartStats Report.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new SmartStats Report is created with identical configuration and an auto-generated distinct name.,,
+SmartStats Engine - Archive Record,TC_103,"1. Navigate to SmartStats Engine module.
+2. Select a completed SmartStats Report.
+3. Click 'Archive'.",SmartStats Report is moved to the archived list and no longer appears in the active list.,,
+SmartStats Engine - Restore Archived Record,TC_104,"1. Navigate to the archived SmartStats Report list.
+2. Select an archived SmartStats Report.
+3. Click 'Restore'.",SmartStats Report is restored to the active list with its original configuration intact.,,
+SmartStats Engine - Search by Name,TC_105,"1. Navigate to SmartStats Engine module.
+2. Enter a SmartStats Report name (full or partial) in the search box.",List is filtered to display only SmartStats Report records matching the search term.,,
+SmartStats Engine - Filter by Status,TC_106,"1. Navigate to SmartStats Engine module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only SmartStats Report records matching the selected status.,,
+SmartStats Engine - Sort by Created Date,TC_107,"1. Navigate to SmartStats Engine module.
+2. Click the 'Created Date' column header to sort.",SmartStats Report list is sorted correctly in ascending/descending order of creation date.,,
+SmartStats Engine - Pagination,TC_108,"1. Navigate to SmartStats Engine module with more than one page of SmartStats Report records.
+2. Click 'Next Page'.",Next set of SmartStats Report records is displayed correctly without duplication or omission.,,
+SmartStats Engine - Permission - Unauthorized Create,TC_109,"1. Login as a user without SmartStats Engine creation rights.
+2. Attempt to create a new SmartStats Report.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+SmartStats Engine - Permission - Read-Only Edit Attempt,TC_110,"1. Login as a read-only user.
+2. Open an existing SmartStats Report and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+SmartStats Engine - Cross-Browser Rendering,TC_111,"1. Open the SmartStats Engine module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a SmartStats Report.",SmartStats Report page renders consistently and functions correctly across all supported browsers.,,
+SmartStats Engine - Mobile/Responsive Rendering,TC_112,"1. Open the SmartStats Engine module on a mobile device or responsive viewport.
+2. Interact with a SmartStats Report.",Layout adapts responsively and all SmartStats Report actions remain usable on smaller screens.,,
+SmartStats Engine - Data Persistence After Refresh,TC_113,"1. Create/update a SmartStats Report with valid data.
+2. Refresh the browser page.",All entered data for the SmartStats Report persists correctly after the page refresh.,,
+SmartStats Engine - Export Data/Report,TC_114,"1. Navigate to SmartStats Engine module.
+2. Select a SmartStats Report.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate SmartStats Report data in the selected format.,,
+SmartStats Engine - Real-Time Status Update,TC_115,"1. Open the SmartStats Engine dashboard in one session.
+2. Change the SmartStats Report status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+SmartStats Engine - Concurrent Edit Conflict,TC_116,"1. Open the same SmartStats Report for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+SmartStats Engine - Undo Last Action,TC_117,"1. Perform an action (e.g. delete/edit) on a SmartStats Report.
+2. Click 'Undo' if available within the allowed time window.",The SmartStats Report reverts to its previous state successfully.,,
+SmartStats Engine - Audit Log Entry,TC_118,"1. Perform a create/edit/delete action on a SmartStats Report.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the SmartStats Report.",,
+SmartStats Engine - Notification on Status Change,TC_119,"1. Change the status of a SmartStats Report (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the SmartStats Report status change.,,
+SmartStats Engine - Session Timeout During Use,TC_120,"1. Open a SmartStats Report for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+Visual Editor - Create - Valid Data,TC_121,"1. Login to VWO platform.
+2. Navigate to Visual Editor module.
+3. Click 'Create New Variation'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",Variation is created successfully and appears in the Visual Editor list with status 'Draft'.,,
+Visual Editor - Create - Missing Mandatory Field,TC_122,"1. Navigate to Visual Editor module.
+2. Click 'Create New Variation'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the Variation.,,
+Visual Editor - Create - Duplicate Name,TC_123,"1. Navigate to Visual Editor module.
+2. Create a Variation using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+Visual Editor - Create - Max Character Limit Boundary,TC_124,"1. Navigate to Visual Editor module.
+2. Enter a name for the Variation at the maximum allowed character limit.
+3. Click 'Save'.",Variation is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+Visual Editor - Create - Special Characters/Emoji in Name,TC_125,"1. Navigate to Visual Editor module.
+2. Enter special characters/emoji in the Variation name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+Visual Editor - Create - SQL Injection Attempt,TC_126,"1. Navigate to Visual Editor module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the Variation form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+Visual Editor - Create - XSS Script Injection Attempt,TC_127,"1. Navigate to Visual Editor module.
+2. Enter a script tag payload into an input field of the Variation form.
+3. Click 'Save' and view the Variation.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the Variation is viewed.,,
+Visual Editor - Edit - Update Existing Record,TC_128,"1. Navigate to Visual Editor module.
+2. Open an existing Variation.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",Variation is updated successfully and the changes are reflected immediately in the Visual Editor list/detail view.,,
+Visual Editor - Edit - Restrict Changes While Live,TC_129,"1. Navigate to Visual Editor module.
+2. Open a Variation that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live Variation and displays an explanatory message.,,
+Visual Editor - Delete - Draft Record,TC_130,"1. Navigate to Visual Editor module.
+2. Select a Variation with status 'Draft'.
+3. Click 'Delete' and confirm.",Variation is removed from the list and no longer accessible.,,
+Visual Editor - Delete - Restrict Active Record,TC_131,"1. Navigate to Visual Editor module.
+2. Select a Variation that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active Variation or prompts the user to pause/stop it first.,,
+Visual Editor - Clone/Duplicate Record,TC_132,"1. Navigate to Visual Editor module.
+2. Select an existing Variation.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new Variation is created with identical configuration and an auto-generated distinct name.,,
+Visual Editor - Archive Record,TC_133,"1. Navigate to Visual Editor module.
+2. Select a completed Variation.
+3. Click 'Archive'.",Variation is moved to the archived list and no longer appears in the active list.,,
+Visual Editor - Restore Archived Record,TC_134,"1. Navigate to the archived Variation list.
+2. Select an archived Variation.
+3. Click 'Restore'.",Variation is restored to the active list with its original configuration intact.,,
+Visual Editor - Search by Name,TC_135,"1. Navigate to Visual Editor module.
+2. Enter a Variation name (full or partial) in the search box.",List is filtered to display only Variation records matching the search term.,,
+Visual Editor - Filter by Status,TC_136,"1. Navigate to Visual Editor module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only Variation records matching the selected status.,,
+Visual Editor - Sort by Created Date,TC_137,"1. Navigate to Visual Editor module.
+2. Click the 'Created Date' column header to sort.",Variation list is sorted correctly in ascending/descending order of creation date.,,
+Visual Editor - Pagination,TC_138,"1. Navigate to Visual Editor module with more than one page of Variation records.
+2. Click 'Next Page'.",Next set of Variation records is displayed correctly without duplication or omission.,,
+Visual Editor - Permission - Unauthorized Create,TC_139,"1. Login as a user without Visual Editor creation rights.
+2. Attempt to create a new Variation.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+Visual Editor - Permission - Read-Only Edit Attempt,TC_140,"1. Login as a read-only user.
+2. Open an existing Variation and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+Visual Editor - Cross-Browser Rendering,TC_141,"1. Open the Visual Editor module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a Variation.",Variation page renders consistently and functions correctly across all supported browsers.,,
+Visual Editor - Mobile/Responsive Rendering,TC_142,"1. Open the Visual Editor module on a mobile device or responsive viewport.
+2. Interact with a Variation.",Layout adapts responsively and all Variation actions remain usable on smaller screens.,,
+Visual Editor - Data Persistence After Refresh,TC_143,"1. Create/update a Variation with valid data.
+2. Refresh the browser page.",All entered data for the Variation persists correctly after the page refresh.,,
+Visual Editor - Export Data/Report,TC_144,"1. Navigate to Visual Editor module.
+2. Select a Variation.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate Variation data in the selected format.,,
+Visual Editor - Real-Time Status Update,TC_145,"1. Open the Visual Editor dashboard in one session.
+2. Change the Variation status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+Visual Editor - Concurrent Edit Conflict,TC_146,"1. Open the same Variation for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+Visual Editor - Undo Last Action,TC_147,"1. Perform an action (e.g. delete/edit) on a Variation.
+2. Click 'Undo' if available within the allowed time window.",The Variation reverts to its previous state successfully.,,
+Visual Editor - Audit Log Entry,TC_148,"1. Perform a create/edit/delete action on a Variation.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the Variation.",,
+Visual Editor - Notification on Status Change,TC_149,"1. Change the status of a Variation (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the Variation status change.,,
+Visual Editor - Session Timeout During Use,TC_150,"1. Open a Variation for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+Code Editor - Create - Valid Data,TC_151,"1. Login to VWO platform.
+2. Navigate to Code Editor module.
+3. Click 'Create New Custom Code Snippet'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",Custom Code Snippet is created successfully and appears in the Code Editor list with status 'Draft'.,,
+Code Editor - Create - Missing Mandatory Field,TC_152,"1. Navigate to Code Editor module.
+2. Click 'Create New Custom Code Snippet'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the Custom Code Snippet.,,
+Code Editor - Create - Duplicate Name,TC_153,"1. Navigate to Code Editor module.
+2. Create a Custom Code Snippet using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+Code Editor - Create - Max Character Limit Boundary,TC_154,"1. Navigate to Code Editor module.
+2. Enter a name for the Custom Code Snippet at the maximum allowed character limit.
+3. Click 'Save'.",Custom Code Snippet is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+Code Editor - Create - Special Characters/Emoji in Name,TC_155,"1. Navigate to Code Editor module.
+2. Enter special characters/emoji in the Custom Code Snippet name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+Code Editor - Create - SQL Injection Attempt,TC_156,"1. Navigate to Code Editor module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the Custom Code Snippet form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+Code Editor - Create - XSS Script Injection Attempt,TC_157,"1. Navigate to Code Editor module.
+2. Enter a script tag payload into an input field of the Custom Code Snippet form.
+3. Click 'Save' and view the Custom Code Snippet.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the Custom Code Snippet is viewed.,,
+Code Editor - Edit - Update Existing Record,TC_158,"1. Navigate to Code Editor module.
+2. Open an existing Custom Code Snippet.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",Custom Code Snippet is updated successfully and the changes are reflected immediately in the Code Editor list/detail view.,,
+Code Editor - Edit - Restrict Changes While Live,TC_159,"1. Navigate to Code Editor module.
+2. Open a Custom Code Snippet that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live Custom Code Snippet and displays an explanatory message.,,
+Code Editor - Delete - Draft Record,TC_160,"1. Navigate to Code Editor module.
+2. Select a Custom Code Snippet with status 'Draft'.
+3. Click 'Delete' and confirm.",Custom Code Snippet is removed from the list and no longer accessible.,,
+Code Editor - Delete - Restrict Active Record,TC_161,"1. Navigate to Code Editor module.
+2. Select a Custom Code Snippet that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active Custom Code Snippet or prompts the user to pause/stop it first.,,
+Code Editor - Clone/Duplicate Record,TC_162,"1. Navigate to Code Editor module.
+2. Select an existing Custom Code Snippet.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new Custom Code Snippet is created with identical configuration and an auto-generated distinct name.,,
+Code Editor - Archive Record,TC_163,"1. Navigate to Code Editor module.
+2. Select a completed Custom Code Snippet.
+3. Click 'Archive'.",Custom Code Snippet is moved to the archived list and no longer appears in the active list.,,
+Code Editor - Restore Archived Record,TC_164,"1. Navigate to the archived Custom Code Snippet list.
+2. Select an archived Custom Code Snippet.
+3. Click 'Restore'.",Custom Code Snippet is restored to the active list with its original configuration intact.,,
+Code Editor - Search by Name,TC_165,"1. Navigate to Code Editor module.
+2. Enter a Custom Code Snippet name (full or partial) in the search box.",List is filtered to display only Custom Code Snippet records matching the search term.,,
+Code Editor - Filter by Status,TC_166,"1. Navigate to Code Editor module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only Custom Code Snippet records matching the selected status.,,
+Code Editor - Sort by Created Date,TC_167,"1. Navigate to Code Editor module.
+2. Click the 'Created Date' column header to sort.",Custom Code Snippet list is sorted correctly in ascending/descending order of creation date.,,
+Code Editor - Pagination,TC_168,"1. Navigate to Code Editor module with more than one page of Custom Code Snippet records.
+2. Click 'Next Page'.",Next set of Custom Code Snippet records is displayed correctly without duplication or omission.,,
+Code Editor - Permission - Unauthorized Create,TC_169,"1. Login as a user without Code Editor creation rights.
+2. Attempt to create a new Custom Code Snippet.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+Code Editor - Permission - Read-Only Edit Attempt,TC_170,"1. Login as a read-only user.
+2. Open an existing Custom Code Snippet and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+Code Editor - Cross-Browser Rendering,TC_171,"1. Open the Code Editor module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a Custom Code Snippet.",Custom Code Snippet page renders consistently and functions correctly across all supported browsers.,,
+Code Editor - Mobile/Responsive Rendering,TC_172,"1. Open the Code Editor module on a mobile device or responsive viewport.
+2. Interact with a Custom Code Snippet.",Layout adapts responsively and all Custom Code Snippet actions remain usable on smaller screens.,,
+Code Editor - Data Persistence After Refresh,TC_173,"1. Create/update a Custom Code Snippet with valid data.
+2. Refresh the browser page.",All entered data for the Custom Code Snippet persists correctly after the page refresh.,,
+Code Editor - Export Data/Report,TC_174,"1. Navigate to Code Editor module.
+2. Select a Custom Code Snippet.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate Custom Code Snippet data in the selected format.,,
+Code Editor - Real-Time Status Update,TC_175,"1. Open the Code Editor dashboard in one session.
+2. Change the Custom Code Snippet status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+Code Editor - Concurrent Edit Conflict,TC_176,"1. Open the same Custom Code Snippet for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+Code Editor - Undo Last Action,TC_177,"1. Perform an action (e.g. delete/edit) on a Custom Code Snippet.
+2. Click 'Undo' if available within the allowed time window.",The Custom Code Snippet reverts to its previous state successfully.,,
+Code Editor - Audit Log Entry,TC_178,"1. Perform a create/edit/delete action on a Custom Code Snippet.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the Custom Code Snippet.",,
+Code Editor - Notification on Status Change,TC_179,"1. Change the status of a Custom Code Snippet (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the Custom Code Snippet status change.,,
+Code Editor - Session Timeout During Use,TC_180,"1. Open a Custom Code Snippet for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+Heatmaps - Create - Valid Data,TC_181,"1. Login to VWO platform.
+2. Navigate to Heatmaps module.
+3. Click 'Create New Heatmap'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",Heatmap is created successfully and appears in the Heatmaps list with status 'Draft'.,,
+Heatmaps - Create - Missing Mandatory Field,TC_182,"1. Navigate to Heatmaps module.
+2. Click 'Create New Heatmap'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the Heatmap.,,
+Heatmaps - Create - Duplicate Name,TC_183,"1. Navigate to Heatmaps module.
+2. Create a Heatmap using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+Heatmaps - Create - Max Character Limit Boundary,TC_184,"1. Navigate to Heatmaps module.
+2. Enter a name for the Heatmap at the maximum allowed character limit.
+3. Click 'Save'.",Heatmap is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+Heatmaps - Create - Special Characters/Emoji in Name,TC_185,"1. Navigate to Heatmaps module.
+2. Enter special characters/emoji in the Heatmap name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+Heatmaps - Create - SQL Injection Attempt,TC_186,"1. Navigate to Heatmaps module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the Heatmap form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+Heatmaps - Create - XSS Script Injection Attempt,TC_187,"1. Navigate to Heatmaps module.
+2. Enter a script tag payload into an input field of the Heatmap form.
+3. Click 'Save' and view the Heatmap.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the Heatmap is viewed.,,
+Heatmaps - Edit - Update Existing Record,TC_188,"1. Navigate to Heatmaps module.
+2. Open an existing Heatmap.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",Heatmap is updated successfully and the changes are reflected immediately in the Heatmaps list/detail view.,,
+Heatmaps - Edit - Restrict Changes While Live,TC_189,"1. Navigate to Heatmaps module.
+2. Open a Heatmap that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live Heatmap and displays an explanatory message.,,
+Heatmaps - Delete - Draft Record,TC_190,"1. Navigate to Heatmaps module.
+2. Select a Heatmap with status 'Draft'.
+3. Click 'Delete' and confirm.",Heatmap is removed from the list and no longer accessible.,,
+Heatmaps - Delete - Restrict Active Record,TC_191,"1. Navigate to Heatmaps module.
+2. Select a Heatmap that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active Heatmap or prompts the user to pause/stop it first.,,
+Heatmaps - Clone/Duplicate Record,TC_192,"1. Navigate to Heatmaps module.
+2. Select an existing Heatmap.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new Heatmap is created with identical configuration and an auto-generated distinct name.,,
+Heatmaps - Archive Record,TC_193,"1. Navigate to Heatmaps module.
+2. Select a completed Heatmap.
+3. Click 'Archive'.",Heatmap is moved to the archived list and no longer appears in the active list.,,
+Heatmaps - Restore Archived Record,TC_194,"1. Navigate to the archived Heatmap list.
+2. Select an archived Heatmap.
+3. Click 'Restore'.",Heatmap is restored to the active list with its original configuration intact.,,
+Heatmaps - Search by Name,TC_195,"1. Navigate to Heatmaps module.
+2. Enter a Heatmap name (full or partial) in the search box.",List is filtered to display only Heatmap records matching the search term.,,
+Heatmaps - Filter by Status,TC_196,"1. Navigate to Heatmaps module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only Heatmap records matching the selected status.,,
+Heatmaps - Sort by Created Date,TC_197,"1. Navigate to Heatmaps module.
+2. Click the 'Created Date' column header to sort.",Heatmap list is sorted correctly in ascending/descending order of creation date.,,
+Heatmaps - Pagination,TC_198,"1. Navigate to Heatmaps module with more than one page of Heatmap records.
+2. Click 'Next Page'.",Next set of Heatmap records is displayed correctly without duplication or omission.,,
+Heatmaps - Permission - Unauthorized Create,TC_199,"1. Login as a user without Heatmaps creation rights.
+2. Attempt to create a new Heatmap.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+Heatmaps - Permission - Read-Only Edit Attempt,TC_200,"1. Login as a read-only user.
+2. Open an existing Heatmap and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+Heatmaps - Cross-Browser Rendering,TC_201,"1. Open the Heatmaps module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a Heatmap.",Heatmap page renders consistently and functions correctly across all supported browsers.,,
+Heatmaps - Mobile/Responsive Rendering,TC_202,"1. Open the Heatmaps module on a mobile device or responsive viewport.
+2. Interact with a Heatmap.",Layout adapts responsively and all Heatmap actions remain usable on smaller screens.,,
+Heatmaps - Data Persistence After Refresh,TC_203,"1. Create/update a Heatmap with valid data.
+2. Refresh the browser page.",All entered data for the Heatmap persists correctly after the page refresh.,,
+Heatmaps - Export Data/Report,TC_204,"1. Navigate to Heatmaps module.
+2. Select a Heatmap.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate Heatmap data in the selected format.,,
+Heatmaps - Real-Time Status Update,TC_205,"1. Open the Heatmaps dashboard in one session.
+2. Change the Heatmap status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+Heatmaps - Concurrent Edit Conflict,TC_206,"1. Open the same Heatmap for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+Heatmaps - Undo Last Action,TC_207,"1. Perform an action (e.g. delete/edit) on a Heatmap.
+2. Click 'Undo' if available within the allowed time window.",The Heatmap reverts to its previous state successfully.,,
+Heatmaps - Audit Log Entry,TC_208,"1. Perform a create/edit/delete action on a Heatmap.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the Heatmap.",,
+Heatmaps - Notification on Status Change,TC_209,"1. Change the status of a Heatmap (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the Heatmap status change.,,
+Heatmaps - Session Timeout During Use,TC_210,"1. Open a Heatmap for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+Session Recordings - Create - Valid Data,TC_211,"1. Login to VWO platform.
+2. Navigate to Session Recordings module.
+3. Click 'Create New Session Recording'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",Session Recording is created successfully and appears in the Session Recordings list with status 'Draft'.,,
+Session Recordings - Create - Missing Mandatory Field,TC_212,"1. Navigate to Session Recordings module.
+2. Click 'Create New Session Recording'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the Session Recording.,,
+Session Recordings - Create - Duplicate Name,TC_213,"1. Navigate to Session Recordings module.
+2. Create a Session Recording using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+Session Recordings - Create - Max Character Limit Boundary,TC_214,"1. Navigate to Session Recordings module.
+2. Enter a name for the Session Recording at the maximum allowed character limit.
+3. Click 'Save'.",Session Recording is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+Session Recordings - Create - Special Characters/Emoji in Name,TC_215,"1. Navigate to Session Recordings module.
+2. Enter special characters/emoji in the Session Recording name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+Session Recordings - Create - SQL Injection Attempt,TC_216,"1. Navigate to Session Recordings module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the Session Recording form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+Session Recordings - Create - XSS Script Injection Attempt,TC_217,"1. Navigate to Session Recordings module.
+2. Enter a script tag payload into an input field of the Session Recording form.
+3. Click 'Save' and view the Session Recording.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the Session Recording is viewed.,,
+Session Recordings - Edit - Update Existing Record,TC_218,"1. Navigate to Session Recordings module.
+2. Open an existing Session Recording.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",Session Recording is updated successfully and the changes are reflected immediately in the Session Recordings list/detail view.,,
+Session Recordings - Edit - Restrict Changes While Live,TC_219,"1. Navigate to Session Recordings module.
+2. Open a Session Recording that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live Session Recording and displays an explanatory message.,,
+Session Recordings - Delete - Draft Record,TC_220,"1. Navigate to Session Recordings module.
+2. Select a Session Recording with status 'Draft'.
+3. Click 'Delete' and confirm.",Session Recording is removed from the list and no longer accessible.,,
+Session Recordings - Delete - Restrict Active Record,TC_221,"1. Navigate to Session Recordings module.
+2. Select a Session Recording that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active Session Recording or prompts the user to pause/stop it first.,,
+Session Recordings - Clone/Duplicate Record,TC_222,"1. Navigate to Session Recordings module.
+2. Select an existing Session Recording.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new Session Recording is created with identical configuration and an auto-generated distinct name.,,
+Session Recordings - Archive Record,TC_223,"1. Navigate to Session Recordings module.
+2. Select a completed Session Recording.
+3. Click 'Archive'.",Session Recording is moved to the archived list and no longer appears in the active list.,,
+Session Recordings - Restore Archived Record,TC_224,"1. Navigate to the archived Session Recording list.
+2. Select an archived Session Recording.
+3. Click 'Restore'.",Session Recording is restored to the active list with its original configuration intact.,,
+Session Recordings - Search by Name,TC_225,"1. Navigate to Session Recordings module.
+2. Enter a Session Recording name (full or partial) in the search box.",List is filtered to display only Session Recording records matching the search term.,,
+Session Recordings - Filter by Status,TC_226,"1. Navigate to Session Recordings module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only Session Recording records matching the selected status.,,
+Session Recordings - Sort by Created Date,TC_227,"1. Navigate to Session Recordings module.
+2. Click the 'Created Date' column header to sort.",Session Recording list is sorted correctly in ascending/descending order of creation date.,,
+Session Recordings - Pagination,TC_228,"1. Navigate to Session Recordings module with more than one page of Session Recording records.
+2. Click 'Next Page'.",Next set of Session Recording records is displayed correctly without duplication or omission.,,
+Session Recordings - Permission - Unauthorized Create,TC_229,"1. Login as a user without Session Recordings creation rights.
+2. Attempt to create a new Session Recording.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+Session Recordings - Permission - Read-Only Edit Attempt,TC_230,"1. Login as a read-only user.
+2. Open an existing Session Recording and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+Session Recordings - Cross-Browser Rendering,TC_231,"1. Open the Session Recordings module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a Session Recording.",Session Recording page renders consistently and functions correctly across all supported browsers.,,
+Session Recordings - Mobile/Responsive Rendering,TC_232,"1. Open the Session Recordings module on a mobile device or responsive viewport.
+2. Interact with a Session Recording.",Layout adapts responsively and all Session Recording actions remain usable on smaller screens.,,
+Session Recordings - Data Persistence After Refresh,TC_233,"1. Create/update a Session Recording with valid data.
+2. Refresh the browser page.",All entered data for the Session Recording persists correctly after the page refresh.,,
+Session Recordings - Export Data/Report,TC_234,"1. Navigate to Session Recordings module.
+2. Select a Session Recording.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate Session Recording data in the selected format.,,
+Session Recordings - Real-Time Status Update,TC_235,"1. Open the Session Recordings dashboard in one session.
+2. Change the Session Recording status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+Session Recordings - Concurrent Edit Conflict,TC_236,"1. Open the same Session Recording for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+Session Recordings - Undo Last Action,TC_237,"1. Perform an action (e.g. delete/edit) on a Session Recording.
+2. Click 'Undo' if available within the allowed time window.",The Session Recording reverts to its previous state successfully.,,
+Session Recordings - Audit Log Entry,TC_238,"1. Perform a create/edit/delete action on a Session Recording.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the Session Recording.",,
+Session Recordings - Notification on Status Change,TC_239,"1. Change the status of a Session Recording (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the Session Recording status change.,,
+Session Recordings - Session Timeout During Use,TC_240,"1. Open a Session Recording for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+Audience Targeting - Create - Valid Data,TC_241,"1. Login to VWO platform.
+2. Navigate to Audience Targeting module.
+3. Click 'Create New Audience Segment'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",Audience Segment is created successfully and appears in the Audience Targeting list with status 'Draft'.,,
+Audience Targeting - Create - Missing Mandatory Field,TC_242,"1. Navigate to Audience Targeting module.
+2. Click 'Create New Audience Segment'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the Audience Segment.,,
+Audience Targeting - Create - Duplicate Name,TC_243,"1. Navigate to Audience Targeting module.
+2. Create a Audience Segment using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+Audience Targeting - Create - Max Character Limit Boundary,TC_244,"1. Navigate to Audience Targeting module.
+2. Enter a name for the Audience Segment at the maximum allowed character limit.
+3. Click 'Save'.",Audience Segment is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+Audience Targeting - Create - Special Characters/Emoji in Name,TC_245,"1. Navigate to Audience Targeting module.
+2. Enter special characters/emoji in the Audience Segment name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+Audience Targeting - Create - SQL Injection Attempt,TC_246,"1. Navigate to Audience Targeting module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the Audience Segment form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+Audience Targeting - Create - XSS Script Injection Attempt,TC_247,"1. Navigate to Audience Targeting module.
+2. Enter a script tag payload into an input field of the Audience Segment form.
+3. Click 'Save' and view the Audience Segment.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the Audience Segment is viewed.,,
+Audience Targeting - Edit - Update Existing Record,TC_248,"1. Navigate to Audience Targeting module.
+2. Open an existing Audience Segment.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",Audience Segment is updated successfully and the changes are reflected immediately in the Audience Targeting list/detail view.,,
+Audience Targeting - Edit - Restrict Changes While Live,TC_249,"1. Navigate to Audience Targeting module.
+2. Open a Audience Segment that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live Audience Segment and displays an explanatory message.,,
+Audience Targeting - Delete - Draft Record,TC_250,"1. Navigate to Audience Targeting module.
+2. Select a Audience Segment with status 'Draft'.
+3. Click 'Delete' and confirm.",Audience Segment is removed from the list and no longer accessible.,,
+Audience Targeting - Delete - Restrict Active Record,TC_251,"1. Navigate to Audience Targeting module.
+2. Select a Audience Segment that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active Audience Segment or prompts the user to pause/stop it first.,,
+Audience Targeting - Clone/Duplicate Record,TC_252,"1. Navigate to Audience Targeting module.
+2. Select an existing Audience Segment.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new Audience Segment is created with identical configuration and an auto-generated distinct name.,,
+Audience Targeting - Archive Record,TC_253,"1. Navigate to Audience Targeting module.
+2. Select a completed Audience Segment.
+3. Click 'Archive'.",Audience Segment is moved to the archived list and no longer appears in the active list.,,
+Audience Targeting - Restore Archived Record,TC_254,"1. Navigate to the archived Audience Segment list.
+2. Select an archived Audience Segment.
+3. Click 'Restore'.",Audience Segment is restored to the active list with its original configuration intact.,,
+Audience Targeting - Search by Name,TC_255,"1. Navigate to Audience Targeting module.
+2. Enter a Audience Segment name (full or partial) in the search box.",List is filtered to display only Audience Segment records matching the search term.,,
+Audience Targeting - Filter by Status,TC_256,"1. Navigate to Audience Targeting module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only Audience Segment records matching the selected status.,,
+Audience Targeting - Sort by Created Date,TC_257,"1. Navigate to Audience Targeting module.
+2. Click the 'Created Date' column header to sort.",Audience Segment list is sorted correctly in ascending/descending order of creation date.,,
+Audience Targeting - Pagination,TC_258,"1. Navigate to Audience Targeting module with more than one page of Audience Segment records.
+2. Click 'Next Page'.",Next set of Audience Segment records is displayed correctly without duplication or omission.,,
+Audience Targeting - Permission - Unauthorized Create,TC_259,"1. Login as a user without Audience Targeting creation rights.
+2. Attempt to create a new Audience Segment.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+Audience Targeting - Permission - Read-Only Edit Attempt,TC_260,"1. Login as a read-only user.
+2. Open an existing Audience Segment and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+Audience Targeting - Cross-Browser Rendering,TC_261,"1. Open the Audience Targeting module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a Audience Segment.",Audience Segment page renders consistently and functions correctly across all supported browsers.,,
+Audience Targeting - Mobile/Responsive Rendering,TC_262,"1. Open the Audience Targeting module on a mobile device or responsive viewport.
+2. Interact with a Audience Segment.",Layout adapts responsively and all Audience Segment actions remain usable on smaller screens.,,
+Audience Targeting - Data Persistence After Refresh,TC_263,"1. Create/update a Audience Segment with valid data.
+2. Refresh the browser page.",All entered data for the Audience Segment persists correctly after the page refresh.,,
+Audience Targeting - Export Data/Report,TC_264,"1. Navigate to Audience Targeting module.
+2. Select a Audience Segment.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate Audience Segment data in the selected format.,,
+Audience Targeting - Real-Time Status Update,TC_265,"1. Open the Audience Targeting dashboard in one session.
+2. Change the Audience Segment status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+Audience Targeting - Concurrent Edit Conflict,TC_266,"1. Open the same Audience Segment for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+Audience Targeting - Undo Last Action,TC_267,"1. Perform an action (e.g. delete/edit) on a Audience Segment.
+2. Click 'Undo' if available within the allowed time window.",The Audience Segment reverts to its previous state successfully.,,
+Audience Targeting - Audit Log Entry,TC_268,"1. Perform a create/edit/delete action on a Audience Segment.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the Audience Segment.",,
+Audience Targeting - Notification on Status Change,TC_269,"1. Change the status of a Audience Segment (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the Audience Segment status change.,,
+Audience Targeting - Session Timeout During Use,TC_270,"1. Open a Audience Segment for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+Real-time Reporting & Dashboards - Create - Valid Data,TC_271,"1. Login to VWO platform.
+2. Navigate to Real-time Reporting & Dashboards module.
+3. Click 'Create New Dashboard'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",Dashboard is created successfully and appears in the Real-time Reporting & Dashboards list with status 'Draft'.,,
+Real-time Reporting & Dashboards - Create - Missing Mandatory Field,TC_272,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Click 'Create New Dashboard'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the Dashboard.,,
+Real-time Reporting & Dashboards - Create - Duplicate Name,TC_273,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Create a Dashboard using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+Real-time Reporting & Dashboards - Create - Max Character Limit Boundary,TC_274,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Enter a name for the Dashboard at the maximum allowed character limit.
+3. Click 'Save'.",Dashboard is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+Real-time Reporting & Dashboards - Create - Special Characters/Emoji in Name,TC_275,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Enter special characters/emoji in the Dashboard name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+Real-time Reporting & Dashboards - Create - SQL Injection Attempt,TC_276,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the Dashboard form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+Real-time Reporting & Dashboards - Create - XSS Script Injection Attempt,TC_277,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Enter a script tag payload into an input field of the Dashboard form.
+3. Click 'Save' and view the Dashboard.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the Dashboard is viewed.,,
+Real-time Reporting & Dashboards - Edit - Update Existing Record,TC_278,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Open an existing Dashboard.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",Dashboard is updated successfully and the changes are reflected immediately in the Real-time Reporting & Dashboards list/detail view.,,
+Real-time Reporting & Dashboards - Edit - Restrict Changes While Live,TC_279,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Open a Dashboard that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live Dashboard and displays an explanatory message.,,
+Real-time Reporting & Dashboards - Delete - Draft Record,TC_280,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Select a Dashboard with status 'Draft'.
+3. Click 'Delete' and confirm.",Dashboard is removed from the list and no longer accessible.,,
+Real-time Reporting & Dashboards - Delete - Restrict Active Record,TC_281,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Select a Dashboard that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active Dashboard or prompts the user to pause/stop it first.,,
+Real-time Reporting & Dashboards - Clone/Duplicate Record,TC_282,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Select an existing Dashboard.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new Dashboard is created with identical configuration and an auto-generated distinct name.,,
+Real-time Reporting & Dashboards - Archive Record,TC_283,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Select a completed Dashboard.
+3. Click 'Archive'.",Dashboard is moved to the archived list and no longer appears in the active list.,,
+Real-time Reporting & Dashboards - Restore Archived Record,TC_284,"1. Navigate to the archived Dashboard list.
+2. Select an archived Dashboard.
+3. Click 'Restore'.",Dashboard is restored to the active list with its original configuration intact.,,
+Real-time Reporting & Dashboards - Search by Name,TC_285,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Enter a Dashboard name (full or partial) in the search box.",List is filtered to display only Dashboard records matching the search term.,,
+Real-time Reporting & Dashboards - Filter by Status,TC_286,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only Dashboard records matching the selected status.,,
+Real-time Reporting & Dashboards - Sort by Created Date,TC_287,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Click the 'Created Date' column header to sort.",Dashboard list is sorted correctly in ascending/descending order of creation date.,,
+Real-time Reporting & Dashboards - Pagination,TC_288,"1. Navigate to Real-time Reporting & Dashboards module with more than one page of Dashboard records.
+2. Click 'Next Page'.",Next set of Dashboard records is displayed correctly without duplication or omission.,,
+Real-time Reporting & Dashboards - Permission - Unauthorized Create,TC_289,"1. Login as a user without Real-time Reporting & Dashboards creation rights.
+2. Attempt to create a new Dashboard.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+Real-time Reporting & Dashboards - Permission - Read-Only Edit Attempt,TC_290,"1. Login as a read-only user.
+2. Open an existing Dashboard and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+Real-time Reporting & Dashboards - Cross-Browser Rendering,TC_291,"1. Open the Real-time Reporting & Dashboards module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a Dashboard.",Dashboard page renders consistently and functions correctly across all supported browsers.,,
+Real-time Reporting & Dashboards - Mobile/Responsive Rendering,TC_292,"1. Open the Real-time Reporting & Dashboards module on a mobile device or responsive viewport.
+2. Interact with a Dashboard.",Layout adapts responsively and all Dashboard actions remain usable on smaller screens.,,
+Real-time Reporting & Dashboards - Data Persistence After Refresh,TC_293,"1. Create/update a Dashboard with valid data.
+2. Refresh the browser page.",All entered data for the Dashboard persists correctly after the page refresh.,,
+Real-time Reporting & Dashboards - Export Data/Report,TC_294,"1. Navigate to Real-time Reporting & Dashboards module.
+2. Select a Dashboard.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate Dashboard data in the selected format.,,
+Real-time Reporting & Dashboards - Real-Time Status Update,TC_295,"1. Open the Real-time Reporting & Dashboards dashboard in one session.
+2. Change the Dashboard status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+Real-time Reporting & Dashboards - Concurrent Edit Conflict,TC_296,"1. Open the same Dashboard for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+Real-time Reporting & Dashboards - Undo Last Action,TC_297,"1. Perform an action (e.g. delete/edit) on a Dashboard.
+2. Click 'Undo' if available within the allowed time window.",The Dashboard reverts to its previous state successfully.,,
+Real-time Reporting & Dashboards - Audit Log Entry,TC_298,"1. Perform a create/edit/delete action on a Dashboard.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the Dashboard.",,
+Real-time Reporting & Dashboards - Notification on Status Change,TC_299,"1. Change the status of a Dashboard (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the Dashboard status change.,,
+Real-time Reporting & Dashboards - Session Timeout During Use,TC_300,"1. Open a Dashboard for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+Personalization Engine - Create - Valid Data,TC_301,"1. Login to VWO platform.
+2. Navigate to Personalization Engine module.
+3. Click 'Create New Personalization Campaign'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",Personalization Campaign is created successfully and appears in the Personalization Engine list with status 'Draft'.,,
+Personalization Engine - Create - Missing Mandatory Field,TC_302,"1. Navigate to Personalization Engine module.
+2. Click 'Create New Personalization Campaign'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the Personalization Campaign.,,
+Personalization Engine - Create - Duplicate Name,TC_303,"1. Navigate to Personalization Engine module.
+2. Create a Personalization Campaign using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+Personalization Engine - Create - Max Character Limit Boundary,TC_304,"1. Navigate to Personalization Engine module.
+2. Enter a name for the Personalization Campaign at the maximum allowed character limit.
+3. Click 'Save'.",Personalization Campaign is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+Personalization Engine - Create - Special Characters/Emoji in Name,TC_305,"1. Navigate to Personalization Engine module.
+2. Enter special characters/emoji in the Personalization Campaign name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+Personalization Engine - Create - SQL Injection Attempt,TC_306,"1. Navigate to Personalization Engine module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the Personalization Campaign form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+Personalization Engine - Create - XSS Script Injection Attempt,TC_307,"1. Navigate to Personalization Engine module.
+2. Enter a script tag payload into an input field of the Personalization Campaign form.
+3. Click 'Save' and view the Personalization Campaign.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the Personalization Campaign is viewed.,,
+Personalization Engine - Edit - Update Existing Record,TC_308,"1. Navigate to Personalization Engine module.
+2. Open an existing Personalization Campaign.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",Personalization Campaign is updated successfully and the changes are reflected immediately in the Personalization Engine list/detail view.,,
+Personalization Engine - Edit - Restrict Changes While Live,TC_309,"1. Navigate to Personalization Engine module.
+2. Open a Personalization Campaign that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live Personalization Campaign and displays an explanatory message.,,
+Personalization Engine - Delete - Draft Record,TC_310,"1. Navigate to Personalization Engine module.
+2. Select a Personalization Campaign with status 'Draft'.
+3. Click 'Delete' and confirm.",Personalization Campaign is removed from the list and no longer accessible.,,
+Personalization Engine - Delete - Restrict Active Record,TC_311,"1. Navigate to Personalization Engine module.
+2. Select a Personalization Campaign that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active Personalization Campaign or prompts the user to pause/stop it first.,,
+Personalization Engine - Clone/Duplicate Record,TC_312,"1. Navigate to Personalization Engine module.
+2. Select an existing Personalization Campaign.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new Personalization Campaign is created with identical configuration and an auto-generated distinct name.,,
+Personalization Engine - Archive Record,TC_313,"1. Navigate to Personalization Engine module.
+2. Select a completed Personalization Campaign.
+3. Click 'Archive'.",Personalization Campaign is moved to the archived list and no longer appears in the active list.,,
+Personalization Engine - Restore Archived Record,TC_314,"1. Navigate to the archived Personalization Campaign list.
+2. Select an archived Personalization Campaign.
+3. Click 'Restore'.",Personalization Campaign is restored to the active list with its original configuration intact.,,
+Personalization Engine - Search by Name,TC_315,"1. Navigate to Personalization Engine module.
+2. Enter a Personalization Campaign name (full or partial) in the search box.",List is filtered to display only Personalization Campaign records matching the search term.,,
+Personalization Engine - Filter by Status,TC_316,"1. Navigate to Personalization Engine module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only Personalization Campaign records matching the selected status.,,
+Personalization Engine - Sort by Created Date,TC_317,"1. Navigate to Personalization Engine module.
+2. Click the 'Created Date' column header to sort.",Personalization Campaign list is sorted correctly in ascending/descending order of creation date.,,
+Personalization Engine - Pagination,TC_318,"1. Navigate to Personalization Engine module with more than one page of Personalization Campaign records.
+2. Click 'Next Page'.",Next set of Personalization Campaign records is displayed correctly without duplication or omission.,,
+Personalization Engine - Permission - Unauthorized Create,TC_319,"1. Login as a user without Personalization Engine creation rights.
+2. Attempt to create a new Personalization Campaign.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+Personalization Engine - Permission - Read-Only Edit Attempt,TC_320,"1. Login as a read-only user.
+2. Open an existing Personalization Campaign and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+Personalization Engine - Cross-Browser Rendering,TC_321,"1. Open the Personalization Engine module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a Personalization Campaign.",Personalization Campaign page renders consistently and functions correctly across all supported browsers.,,
+Personalization Engine - Mobile/Responsive Rendering,TC_322,"1. Open the Personalization Engine module on a mobile device or responsive viewport.
+2. Interact with a Personalization Campaign.",Layout adapts responsively and all Personalization Campaign actions remain usable on smaller screens.,,
+Personalization Engine - Data Persistence After Refresh,TC_323,"1. Create/update a Personalization Campaign with valid data.
+2. Refresh the browser page.",All entered data for the Personalization Campaign persists correctly after the page refresh.,,
+Personalization Engine - Export Data/Report,TC_324,"1. Navigate to Personalization Engine module.
+2. Select a Personalization Campaign.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate Personalization Campaign data in the selected format.,,
+Personalization Engine - Real-Time Status Update,TC_325,"1. Open the Personalization Engine dashboard in one session.
+2. Change the Personalization Campaign status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+Personalization Engine - Concurrent Edit Conflict,TC_326,"1. Open the same Personalization Campaign for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+Personalization Engine - Undo Last Action,TC_327,"1. Perform an action (e.g. delete/edit) on a Personalization Campaign.
+2. Click 'Undo' if available within the allowed time window.",The Personalization Campaign reverts to its previous state successfully.,,
+Personalization Engine - Audit Log Entry,TC_328,"1. Perform a create/edit/delete action on a Personalization Campaign.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the Personalization Campaign.",,
+Personalization Engine - Notification on Status Change,TC_329,"1. Change the status of a Personalization Campaign (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the Personalization Campaign status change.,,
+Personalization Engine - Session Timeout During Use,TC_330,"1. Open a Personalization Campaign for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+Integration Connectors - Create - Valid Data,TC_331,"1. Login to VWO platform.
+2. Navigate to Integration Connectors module.
+3. Click 'Create New Integration'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",Integration is created successfully and appears in the Integration Connectors list with status 'Draft'.,,
+Integration Connectors - Create - Missing Mandatory Field,TC_332,"1. Navigate to Integration Connectors module.
+2. Click 'Create New Integration'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the Integration.,,
+Integration Connectors - Create - Duplicate Name,TC_333,"1. Navigate to Integration Connectors module.
+2. Create a Integration using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+Integration Connectors - Create - Max Character Limit Boundary,TC_334,"1. Navigate to Integration Connectors module.
+2. Enter a name for the Integration at the maximum allowed character limit.
+3. Click 'Save'.",Integration is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+Integration Connectors - Create - Special Characters/Emoji in Name,TC_335,"1. Navigate to Integration Connectors module.
+2. Enter special characters/emoji in the Integration name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+Integration Connectors - Create - SQL Injection Attempt,TC_336,"1. Navigate to Integration Connectors module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the Integration form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+Integration Connectors - Create - XSS Script Injection Attempt,TC_337,"1. Navigate to Integration Connectors module.
+2. Enter a script tag payload into an input field of the Integration form.
+3. Click 'Save' and view the Integration.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the Integration is viewed.,,
+Integration Connectors - Edit - Update Existing Record,TC_338,"1. Navigate to Integration Connectors module.
+2. Open an existing Integration.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",Integration is updated successfully and the changes are reflected immediately in the Integration Connectors list/detail view.,,
+Integration Connectors - Edit - Restrict Changes While Live,TC_339,"1. Navigate to Integration Connectors module.
+2. Open a Integration that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live Integration and displays an explanatory message.,,
+Integration Connectors - Delete - Draft Record,TC_340,"1. Navigate to Integration Connectors module.
+2. Select a Integration with status 'Draft'.
+3. Click 'Delete' and confirm.",Integration is removed from the list and no longer accessible.,,
+Integration Connectors - Delete - Restrict Active Record,TC_341,"1. Navigate to Integration Connectors module.
+2. Select a Integration that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active Integration or prompts the user to pause/stop it first.,,
+Integration Connectors - Clone/Duplicate Record,TC_342,"1. Navigate to Integration Connectors module.
+2. Select an existing Integration.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new Integration is created with identical configuration and an auto-generated distinct name.,,
+Integration Connectors - Archive Record,TC_343,"1. Navigate to Integration Connectors module.
+2. Select a completed Integration.
+3. Click 'Archive'.",Integration is moved to the archived list and no longer appears in the active list.,,
+Integration Connectors - Restore Archived Record,TC_344,"1. Navigate to the archived Integration list.
+2. Select an archived Integration.
+3. Click 'Restore'.",Integration is restored to the active list with its original configuration intact.,,
+Integration Connectors - Search by Name,TC_345,"1. Navigate to Integration Connectors module.
+2. Enter a Integration name (full or partial) in the search box.",List is filtered to display only Integration records matching the search term.,,
+Integration Connectors - Filter by Status,TC_346,"1. Navigate to Integration Connectors module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only Integration records matching the selected status.,,
+Integration Connectors - Sort by Created Date,TC_347,"1. Navigate to Integration Connectors module.
+2. Click the 'Created Date' column header to sort.",Integration list is sorted correctly in ascending/descending order of creation date.,,
+Integration Connectors - Pagination,TC_348,"1. Navigate to Integration Connectors module with more than one page of Integration records.
+2. Click 'Next Page'.",Next set of Integration records is displayed correctly without duplication or omission.,,
+Integration Connectors - Permission - Unauthorized Create,TC_349,"1. Login as a user without Integration Connectors creation rights.
+2. Attempt to create a new Integration.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+Integration Connectors - Permission - Read-Only Edit Attempt,TC_350,"1. Login as a read-only user.
+2. Open an existing Integration and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+Integration Connectors - Cross-Browser Rendering,TC_351,"1. Open the Integration Connectors module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a Integration.",Integration page renders consistently and functions correctly across all supported browsers.,,
+Integration Connectors - Mobile/Responsive Rendering,TC_352,"1. Open the Integration Connectors module on a mobile device or responsive viewport.
+2. Interact with a Integration.",Layout adapts responsively and all Integration actions remain usable on smaller screens.,,
+Integration Connectors - Data Persistence After Refresh,TC_353,"1. Create/update a Integration with valid data.
+2. Refresh the browser page.",All entered data for the Integration persists correctly after the page refresh.,,
+Integration Connectors - Export Data/Report,TC_354,"1. Navigate to Integration Connectors module.
+2. Select a Integration.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate Integration data in the selected format.,,
+Integration Connectors - Real-Time Status Update,TC_355,"1. Open the Integration Connectors dashboard in one session.
+2. Change the Integration status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+Integration Connectors - Concurrent Edit Conflict,TC_356,"1. Open the same Integration for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+Integration Connectors - Undo Last Action,TC_357,"1. Perform an action (e.g. delete/edit) on a Integration.
+2. Click 'Undo' if available within the allowed time window.",The Integration reverts to its previous state successfully.,,
+Integration Connectors - Audit Log Entry,TC_358,"1. Perform a create/edit/delete action on a Integration.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the Integration.",,
+Integration Connectors - Notification on Status Change,TC_359,"1. Change the status of a Integration (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the Integration status change.,,
+Integration Connectors - Session Timeout During Use,TC_360,"1. Open a Integration for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+Collaboration & Workflow Management - Create - Valid Data,TC_361,"1. Login to VWO platform.
+2. Navigate to Collaboration & Workflow Management module.
+3. Click 'Create New Task/Workflow Item'.
+4. Enter all mandatory fields with valid data.
+5. Click 'Save'.",Task/Workflow Item is created successfully and appears in the Collaboration & Workflow Management list with status 'Draft'.,,
+Collaboration & Workflow Management - Create - Missing Mandatory Field,TC_362,"1. Navigate to Collaboration & Workflow Management module.
+2. Click 'Create New Task/Workflow Item'.
+3. Leave a mandatory field blank.
+4. Click 'Save'.",System displays a validation error for the missing mandatory field and does not save the Task/Workflow Item.,,
+Collaboration & Workflow Management - Create - Duplicate Name,TC_363,"1. Navigate to Collaboration & Workflow Management module.
+2. Create a Task/Workflow Item using a name that already exists.
+3. Click 'Save'.",System displays a 'duplicate name' validation error and prevents saving until the name is changed.,,
+Collaboration & Workflow Management - Create - Max Character Limit Boundary,TC_364,"1. Navigate to Collaboration & Workflow Management module.
+2. Enter a name for the Task/Workflow Item at the maximum allowed character limit.
+3. Click 'Save'.",Task/Workflow Item is saved successfully with the full name retained; one character beyond the limit is rejected.,,
+Collaboration & Workflow Management - Create - Special Characters/Emoji in Name,TC_365,"1. Navigate to Collaboration & Workflow Management module.
+2. Enter special characters/emoji in the Task/Workflow Item name field.
+3. Click 'Save'.",System either accepts supported characters correctly or shows an appropriate validation message for unsupported characters.,,
+Collaboration & Workflow Management - Create - SQL Injection Attempt,TC_366,"1. Navigate to Collaboration & Workflow Management module.
+2. Enter a SQL injection string (e.g. ' OR '1'='1) into an input field of the Task/Workflow Item form.
+3. Click 'Save'.",Input is sanitized/escaped; no database error is thrown and no unauthorized data access occurs.,,
+Collaboration & Workflow Management - Create - XSS Script Injection Attempt,TC_367,"1. Navigate to Collaboration & Workflow Management module.
+2. Enter a script tag payload into an input field of the Task/Workflow Item form.
+3. Click 'Save' and view the Task/Workflow Item.",Script is sanitized/encoded and does not execute; no alert/popup is triggered when the Task/Workflow Item is viewed.,,
+Collaboration & Workflow Management - Edit - Update Existing Record,TC_368,"1. Navigate to Collaboration & Workflow Management module.
+2. Open an existing Task/Workflow Item.
+3. Update one or more fields with valid data.
+4. Click 'Save'.",Task/Workflow Item is updated successfully and the changes are reflected immediately in the Collaboration & Workflow Management list/detail view.,,
+Collaboration & Workflow Management - Edit - Restrict Changes While Live,TC_369,"1. Navigate to Collaboration & Workflow Management module.
+2. Open a Task/Workflow Item that is currently active/live.
+3. Attempt to edit a locked field (e.g. core configuration).",System restricts editing of locked fields for a live Task/Workflow Item and displays an explanatory message.,,
+Collaboration & Workflow Management - Delete - Draft Record,TC_370,"1. Navigate to Collaboration & Workflow Management module.
+2. Select a Task/Workflow Item with status 'Draft'.
+3. Click 'Delete' and confirm.",Task/Workflow Item is removed from the list and no longer accessible.,,
+Collaboration & Workflow Management - Delete - Restrict Active Record,TC_371,"1. Navigate to Collaboration & Workflow Management module.
+2. Select a Task/Workflow Item that is currently active/live.
+3. Attempt to delete it.",System blocks deletion of an active Task/Workflow Item or prompts the user to pause/stop it first.,,
+Collaboration & Workflow Management - Clone/Duplicate Record,TC_372,"1. Navigate to Collaboration & Workflow Management module.
+2. Select an existing Task/Workflow Item.
+3. Click 'Clone/Duplicate'.
+4. Save the cloned copy.",A new Task/Workflow Item is created with identical configuration and an auto-generated distinct name.,,
+Collaboration & Workflow Management - Archive Record,TC_373,"1. Navigate to Collaboration & Workflow Management module.
+2. Select a completed Task/Workflow Item.
+3. Click 'Archive'.",Task/Workflow Item is moved to the archived list and no longer appears in the active list.,,
+Collaboration & Workflow Management - Restore Archived Record,TC_374,"1. Navigate to the archived Task/Workflow Item list.
+2. Select an archived Task/Workflow Item.
+3. Click 'Restore'.",Task/Workflow Item is restored to the active list with its original configuration intact.,,
+Collaboration & Workflow Management - Search by Name,TC_375,"1. Navigate to Collaboration & Workflow Management module.
+2. Enter a Task/Workflow Item name (full or partial) in the search box.",List is filtered to display only Task/Workflow Item records matching the search term.,,
+Collaboration & Workflow Management - Filter by Status,TC_376,"1. Navigate to Collaboration & Workflow Management module.
+2. Apply a status filter (e.g. Running, Paused, Completed).",List displays only Task/Workflow Item records matching the selected status.,,
+Collaboration & Workflow Management - Sort by Created Date,TC_377,"1. Navigate to Collaboration & Workflow Management module.
+2. Click the 'Created Date' column header to sort.",Task/Workflow Item list is sorted correctly in ascending/descending order of creation date.,,
+Collaboration & Workflow Management - Pagination,TC_378,"1. Navigate to Collaboration & Workflow Management module with more than one page of Task/Workflow Item records.
+2. Click 'Next Page'.",Next set of Task/Workflow Item records is displayed correctly without duplication or omission.,,
+Collaboration & Workflow Management - Permission - Unauthorized Create,TC_379,"1. Login as a user without Collaboration & Workflow Management creation rights.
+2. Attempt to create a new Task/Workflow Item.",System denies the action and displays an appropriate 'insufficient permissions' message.,,
+Collaboration & Workflow Management - Permission - Read-Only Edit Attempt,TC_380,"1. Login as a read-only user.
+2. Open an existing Task/Workflow Item and attempt to modify it.",Edit controls are disabled/hidden or the save action is blocked with a permissions message.,,
+Collaboration & Workflow Management - Cross-Browser Rendering,TC_381,"1. Open the Collaboration & Workflow Management module in Chrome, Firefox, Edge, and Safari.
+2. Compare layout and functionality of a Task/Workflow Item.",Task/Workflow Item page renders consistently and functions correctly across all supported browsers.,,
+Collaboration & Workflow Management - Mobile/Responsive Rendering,TC_382,"1. Open the Collaboration & Workflow Management module on a mobile device or responsive viewport.
+2. Interact with a Task/Workflow Item.",Layout adapts responsively and all Task/Workflow Item actions remain usable on smaller screens.,,
+Collaboration & Workflow Management - Data Persistence After Refresh,TC_383,"1. Create/update a Task/Workflow Item with valid data.
+2. Refresh the browser page.",All entered data for the Task/Workflow Item persists correctly after the page refresh.,,
+Collaboration & Workflow Management - Export Data/Report,TC_384,"1. Navigate to Collaboration & Workflow Management module.
+2. Select a Task/Workflow Item.
+3. Click 'Export' and choose CSV/PDF format.",Export file is generated successfully and contains accurate Task/Workflow Item data in the selected format.,,
+Collaboration & Workflow Management - Real-Time Status Update,TC_385,"1. Open the Collaboration & Workflow Management dashboard in one session.
+2. Change the Task/Workflow Item status from another session.",Status update reflects in real time (or after standard polling interval) without requiring a manual refresh.,,
+Collaboration & Workflow Management - Concurrent Edit Conflict,TC_386,"1. Open the same Task/Workflow Item for editing in two separate user sessions.
+2. Save changes from both sessions.",System detects the conflict and either merges changes safely or warns the second user before overwriting.,,
+Collaboration & Workflow Management - Undo Last Action,TC_387,"1. Perform an action (e.g. delete/edit) on a Task/Workflow Item.
+2. Click 'Undo' if available within the allowed time window.",The Task/Workflow Item reverts to its previous state successfully.,,
+Collaboration & Workflow Management - Audit Log Entry,TC_388,"1. Perform a create/edit/delete action on a Task/Workflow Item.
+2. Navigate to the Activity/Audit Log.","An audit log entry is recorded with correct user, timestamp, and action details for the Task/Workflow Item.",,
+Collaboration & Workflow Management - Notification on Status Change,TC_389,"1. Change the status of a Task/Workflow Item (e.g. start, pause, complete).
+2. Check email/in-app notifications.",Relevant stakeholders receive a timely notification reflecting the Task/Workflow Item status change.,,
+Collaboration & Workflow Management - Session Timeout During Use,TC_390,"1. Open a Task/Workflow Item for editing.
+2. Remain inactive beyond the configured session timeout period.
+3. Attempt to save.",User session expires as configured; user is prompted to re-authenticate and unsaved changes are handled gracefully.,,
+Non-Functional - Performance,TC_391,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: page load time for VWO dashboard is within 2 seconds under normal load.
+3. Observe and record the system's actual behavior/response.","Page load time for VWO dashboard is within 2 seconds under normal load, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_392,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: test creation workflow responds within 2 seconds as per NFR.
+3. Observe and record the system's actual behavior/response.","Test creation workflow responds within 2 seconds as per NFR, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_393,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: heatmap generation for a high-traffic page completes within acceptable time.
+3. Observe and record the system's actual behavior/response.","Heatmap generation for a high-traffic page completes within acceptable time, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_394,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: session recording playback loads without lag.
+3. Observe and record the system's actual behavior/response.","Session recording playback loads without lag, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_395,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: report export for a large dataset (100k+ visitors) completes within acceptable time.
+3. Observe and record the system's actual behavior/response.","Report export for a large dataset (100k+ visitors) completes within acceptable time, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_396,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: API response time for fetching audience segments.
+3. Observe and record the system's actual behavior/response.","API response time for fetching audience segments, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_397,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: system performance when 10 concurrent A/B tests are running simultaneously.
+3. Observe and record the system's actual behavior/response.","System performance when 10 concurrent A/B tests are running simultaneously, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_398,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: dashboard widget refresh time under real-time reporting.
+3. Observe and record the system's actual behavior/response.","Dashboard widget refresh time under real-time reporting, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_399,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: code editor does not lag when handling large custom scripts.
+3. Observe and record the system's actual behavior/response.","Code editor does not lag when handling large custom scripts, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_400,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: visual editor remains responsive with multiple variations open.
+3. Observe and record the system's actual behavior/response.","Visual editor remains responsive with multiple variations open, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_401,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: search/filter operations on a large test list (500+ tests) respond quickly.
+3. Observe and record the system's actual behavior/response.","Search/filter operations on a large test list (500+ tests) respond quickly, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_402,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: system performance during peak traffic (flash-sale level load simulation).
+3. Observe and record the system's actual behavior/response.","System performance during peak traffic (flash-sale level load simulation), meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_403,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: page load performance across different network speeds (3G, 4G, WiFi).
+3. Observe and record the system's actual behavior/response.","Page load performance across different network speeds (3G, 4G, WiFi), meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_404,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: memory usage remains stable during long session recording playback.
+3. Observe and record the system's actual behavior/response.","Memory usage remains stable during long session recording playback, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_405,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: database query response time for analytics reports.
+3. Observe and record the system's actual behavior/response.","Database query response time for analytics reports, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_406,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: test result calculation (SmartStats) completes within expected SLA.
+3. Observe and record the system's actual behavior/response.","Test result calculation (SmartStats) completes within expected SLA, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_407,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: integration sync (e.g. Shopify data pull) completes within acceptable time window.
+3. Observe and record the system's actual behavior/response.","Integration sync (e.g. Shopify data pull) completes within acceptable time window, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_408,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: system does not degrade when multiple users access the same dashboard concurrently.
+3. Observe and record the system's actual behavior/response.","System does not degrade when multiple users access the same dashboard concurrently, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_409,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: image/heatmap rendering time on pages with heavy visual content.
+3. Observe and record the system's actual behavior/response.","Image/heatmap rendering time on pages with heavy visual content, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_410,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: login and authentication response time.
+3. Observe and record the system's actual behavior/response.","Login and authentication response time, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_411,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: bulk import of audience segment data completes within acceptable time.
+3. Observe and record the system's actual behavior/response.","Bulk import of audience segment data completes within acceptable time, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_412,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: CPU/server resource utilization remains within threshold during experiment execution.
+3. Observe and record the system's actual behavior/response.","CPU/server resource utilization remains within threshold during experiment execution, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_413,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: webhook trigger response time for real-time integrations.
+3. Observe and record the system's actual behavior/response.","Webhook trigger response time for real-time integrations, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Performance,TC_414,"1. Set up the test environment/preconditions required for performance testing.
+2. Perform the check: system performance does not degrade after prolonged 24-hour continuous usage.
+3. Observe and record the system's actual behavior/response.","System performance does not degrade after prolonged 24-hour continuous usage, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_415,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: login requires a valid username and password.
+3. Observe and record the system's actual behavior/response.","Login requires a valid username and password, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_416,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: Two-Factor Authentication (2FA) is enforced during login.
+3. Observe and record the system's actual behavior/response.","Two-Factor Authentication (2FA) is enforced during login, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_417,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: account lockout occurs after multiple failed login attempts.
+3. Observe and record the system's actual behavior/response.","Account lockout occurs after multiple failed login attempts, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_418,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: role-based access control restricts unauthorized users from admin settings.
+3. Observe and record the system's actual behavior/response.","Role-based access control restricts unauthorized users from admin settings, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_419,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: session expires after the defined inactivity period.
+3. Observe and record the system's actual behavior/response.","Session expires after the defined inactivity period, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_420,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: password field masks input characters.
+3. Observe and record the system's actual behavior/response.","Password field masks input characters, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_421,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: password reset link expires after the defined time window.
+3. Observe and record the system's actual behavior/response.","Password reset link expires after the defined time window, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_422,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: SQL Injection attempt in the login form is blocked.
+3. Observe and record the system's actual behavior/response.","SQL Injection attempt in the login form is blocked, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_423,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: XSS script injection in the custom code editor is sanitized/blocked.
+3. Observe and record the system's actual behavior/response.","XSS script injection in the custom code editor is sanitized/blocked, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_424,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: CSRF protection is enforced on form submissions.
+3. Observe and record the system's actual behavior/response.","CSRF protection is enforced on form submissions, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_425,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: API endpoints require a valid authentication token.
+3. Observe and record the system's actual behavior/response.","API endpoints require a valid authentication token, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_426,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: unauthorized API request returns a 401/403 error.
+3. Observe and record the system's actual behavior/response.","Unauthorized API request returns a 401/403 error, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_427,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: activity logs capture user login/logout events.
+3. Observe and record the system's actual behavior/response.","Activity logs capture user login/logout events, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_428,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: activity logs capture test creation/deletion events.
+3. Observe and record the system's actual behavior/response.","Activity logs capture test creation/deletion events, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_429,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: data transmitted between client and server uses HTTPS (SSL/TLS) encryption.
+3. Observe and record the system's actual behavior/response.","Data transmitted between client and server uses HTTPS (SSL/TLS) encryption, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_430,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: sensitive data (passwords, tokens) is not exposed in browser console/network logs.
+3. Observe and record the system's actual behavior/response.","Sensitive data (passwords, tokens) is not exposed in browser console/network logs, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_431,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: a user cannot access another account's test data via URL manipulation.
+3. Observe and record the system's actual behavior/response.","A user cannot access another account's test data via URL manipulation, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_432,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: file upload feature rejects malicious/unsupported file types.
+3. Observe and record the system's actual behavior/response.","File upload feature rejects malicious/unsupported file types, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_433,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: third-party integration tokens are stored securely (encrypted at rest).
+3. Observe and record the system's actual behavior/response.","Third-party integration tokens are stored securely (encrypted at rest), meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_434,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: an admin can revoke a user's access immediately.
+3. Observe and record the system's actual behavior/response.","An admin can revoke a user's access immediately, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_435,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: password complexity requirements are enforced during account creation.
+3. Observe and record the system's actual behavior/response.","Password complexity requirements are enforced during account creation, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_436,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: clickjacking protection (X-Frame-Options header) is implemented.
+3. Observe and record the system's actual behavior/response.","Clickjacking protection (X-Frame-Options header) is implemented, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_437,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: rate limiting prevents brute-force login attempts.
+3. Observe and record the system's actual behavior/response.","Rate limiting prevents brute-force login attempts, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_438,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: user permissions are correctly enforced across Testing, Insights, and Personalization modules.
+3. Observe and record the system's actual behavior/response.","User permissions are correctly enforced across Testing, Insights, and Personalization modules, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_439,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: secure logout clears session tokens/cookies.
+3. Observe and record the system's actual behavior/response.","Secure logout clears session tokens/cookies, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_440,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: audit log entries cannot be modified or deleted by non-admin users.
+3. Observe and record the system's actual behavior/response.","Audit log entries cannot be modified or deleted by non-admin users, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Security,TC_441,"1. Set up the test environment/preconditions required for security testing.
+2. Perform the check: multi-factor authentication recovery process (backup codes) is secure.
+3. Observe and record the system's actual behavior/response.","Multi-factor authentication recovery process (backup codes) is secure, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_442,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: system supports high visitor volume (1M+ monthly tested users) without performance degradation.
+3. Observe and record the system's actual behavior/response.","System supports high visitor volume (1M+ monthly tested users) without performance degradation, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_443,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: system scales when multiple experiments run concurrently across accounts.
+3. Observe and record the system's actual behavior/response.","System scales when multiple experiments run concurrently across accounts, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_444,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: database performance remains stable as historical test data grows.
+3. Observe and record the system's actual behavior/response.","Database performance remains stable as historical test data grows, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_445,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: heatmap/session recording storage scales with increasing data volume.
+3. Observe and record the system's actual behavior/response.","Heatmap/session recording storage scales with increasing data volume, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_446,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: system handles sudden traffic spikes (flash-sale scenario) without downtime.
+3. Observe and record the system's actual behavior/response.","System handles sudden traffic spikes (flash-sale scenario) without downtime, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_447,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: load balancing distributes traffic evenly across servers.
+3. Observe and record the system's actual behavior/response.","Load balancing distributes traffic evenly across servers, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_448,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: auto-scaling triggers when server load crosses the defined threshold.
+3. Observe and record the system's actual behavior/response.","Auto-scaling triggers when server load crosses the defined threshold, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_449,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: system supports an increasing number of integrated third-party platforms without slowdown.
+3. Observe and record the system's actual behavior/response.","System supports an increasing number of integrated third-party platforms without slowdown, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_450,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: multi-tenant architecture isolates data correctly under high account volume.
+3. Observe and record the system's actual behavior/response.","Multi-tenant architecture isolates data correctly under high account volume, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_451,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: reporting module scales when generating reports across multiple properties simultaneously.
+3. Observe and record the system's actual behavior/response.","Reporting module scales when generating reports across multiple properties simultaneously, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_452,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: audience segmentation performance with a large user base (10M+ users).
+3. Observe and record the system's actual behavior/response.","Audience segmentation performance with a large user base (10M+ users), meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_453,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: system stability when an enterprise customer runs 50+ simultaneous tests.
+3. Observe and record the system's actual behavior/response.","System stability when an enterprise customer runs 50+ simultaneous tests, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_454,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: API rate limits scale appropriately for enterprise-tier customers.
+3. Observe and record the system's actual behavior/response.","API rate limits scale appropriately for enterprise-tier customers, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_455,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: CDN performance for global users accessing the VWO snippet.
+3. Observe and record the system's actual behavior/response.","CDN performance for global users accessing the VWO snippet, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_456,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: horizontal scaling of backend services during peak experimentation season.
+3. Observe and record the system's actual behavior/response.","Horizontal scaling of backend services during peak experimentation season, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_457,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: system handles an increasing number of concurrent dashboard viewers.
+3. Observe and record the system's actual behavior/response.","System handles an increasing number of concurrent dashboard viewers, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_458,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: data pipeline scalability for real-time analytics processing.
+3. Observe and record the system's actual behavior/response.","Data pipeline scalability for real-time analytics processing, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_459,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: system maintains its performance SLA as the customer base grows.
+3. Observe and record the system's actual behavior/response.","System maintains its performance SLA as the customer base grows, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_460,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: system performance remains consistent when scaling from Growth to Enterprise plan tier.
+3. Observe and record the system's actual behavior/response.","System performance remains consistent when scaling from Growth to Enterprise plan tier, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Scalability,TC_461,"1. Set up the test environment/preconditions required for scalability testing.
+2. Perform the check: batch processing of large audience segment updates scales without timeout errors.
+3. Observe and record the system's actual behavior/response.","Batch processing of large audience segment updates scales without timeout errors, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_462,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: GDPR consent banner is displayed to EU visitors.
+3. Observe and record the system's actual behavior/response.","GDPR consent banner is displayed to EU visitors, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_463,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: a user can opt out of tracking via consent management.
+3. Observe and record the system's actual behavior/response.","A user can opt out of tracking via consent management, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_464,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: CCPA compliance for California-based visitor data handling.
+3. Observe and record the system's actual behavior/response.","CCPA compliance for California-based visitor data handling, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_465,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: personal data is anonymized in session recordings (masked input fields).
+3. Observe and record the system's actual behavior/response.","Personal data is anonymized in session recordings (masked input fields), meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_466,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: heatmap data does not capture sensitive user input (e.g. passwords, card numbers).
+3. Observe and record the system's actual behavior/response.","Heatmap data does not capture sensitive user input (e.g. passwords, card numbers), meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_467,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: data retention policy automatically purges data after the defined period.
+3. Observe and record the system's actual behavior/response.","Data retention policy automatically purges data after the defined period, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_468,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: a user can request data deletion (Right to be Forgotten) and it is honored.
+3. Observe and record the system's actual behavior/response.","A user can request data deletion (Right to be Forgotten) and it is honored, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_469,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: data export request provides all user data as per compliance requirements.
+3. Observe and record the system's actual behavior/response.","Data export request provides all user data as per compliance requirements, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_470,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: third-party data sharing complies with regional data policies.
+3. Observe and record the system's actual behavior/response.","Third-party data sharing complies with regional data policies, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_471,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: cookie consent preferences are respected across sessions.
+3. Observe and record the system's actual behavior/response.","Cookie consent preferences are respected across sessions, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_472,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: the IP address anonymization option functions correctly.
+3. Observe and record the system's actual behavior/response.","The IP address anonymization option functions correctly, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_473,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: data processing agreement terms are enforced for enterprise accounts.
+3. Observe and record the system's actual behavior/response.","Data processing agreement terms are enforced for enterprise accounts, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_474,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: cross-border data transfer complies with regional regulations.
+3. Observe and record the system's actual behavior/response.","Cross-border data transfer complies with regional regulations, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_475,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: an audit trail exists for data access requests.
+3. Observe and record the system's actual behavior/response.","An audit trail exists for data access requests, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_476,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: sensitive form fields are excluded from session recording by default.
+3. Observe and record the system's actual behavior/response.","Sensitive form fields are excluded from session recording by default, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_477,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: the privacy policy is accessible and up to date within the platform.
+3. Observe and record the system's actual behavior/response.","The privacy policy is accessible and up to date within the platform, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_478,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: data anonymization applies correctly in exported reports.
+3. Observe and record the system's actual behavior/response.","Data anonymization applies correctly in exported reports, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_479,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: account deletion removes associated personal data within the compliance timeframe.
+3. Observe and record the system's actual behavior/response.","Account deletion removes associated personal data within the compliance timeframe, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_480,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: consent withdrawal stops further data collection immediately.
+3. Observe and record the system's actual behavior/response.","Consent withdrawal stops further data collection immediately, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_481,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: data residency settings comply with the customer's regional requirements.
+3. Observe and record the system's actual behavior/response.","Data residency settings comply with the customer's regional requirements, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_482,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: data processing complies with children's privacy regulations (COPPA) where applicable.
+3. Observe and record the system's actual behavior/response.","Data processing complies with children's privacy regulations (COPPA) where applicable, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Data Privacy,TC_483,"1. Set up the test environment/preconditions required for data privacy testing.
+2. Perform the check: anonymized analytics data cannot be re-identified to individual users.
+3. Observe and record the system's actual behavior/response.","Anonymized analytics data cannot be re-identified to individual users, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_484,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: system maintains 99.9% uptime SLA over a monitoring period.
+3. Observe and record the system's actual behavior/response.","System maintains 99.9% uptime SLA over a monitoring period, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_485,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: automatic failover occurs when the primary server goes down.
+3. Observe and record the system's actual behavior/response.","Automatic failover occurs when the primary server goes down, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_486,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: data is not lost during an unexpected server restart.
+3. Observe and record the system's actual behavior/response.","Data is not lost during an unexpected server restart, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_487,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: scheduled maintenance does not disrupt active experiments.
+3. Observe and record the system's actual behavior/response.","Scheduled maintenance does not disrupt active experiments, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_488,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: system recovers gracefully after a network outage.
+3. Observe and record the system's actual behavior/response.","System recovers gracefully after a network outage, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_489,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: backup and restore process for test configuration data.
+3. Observe and record the system's actual behavior/response.","Backup and restore process for test configuration data, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_490,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: test results remain consistent after system recovery from failure.
+3. Observe and record the system's actual behavior/response.","Test results remain consistent after system recovery from failure, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_491,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: error monitoring/alerting system notifies the team of downtime incidents.
+3. Observe and record the system's actual behavior/response.","Error monitoring/alerting system notifies the team of downtime incidents, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_492,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: graceful degradation when a third-party integration is temporarily unavailable.
+3. Observe and record the system's actual behavior/response.","Graceful degradation when a third-party integration is temporarily unavailable, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_493,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: system logs capture error details for troubleshooting during outages.
+3. Observe and record the system's actual behavior/response.","System logs capture error details for troubleshooting during outages, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_494,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: redundant data centers ensure continuity during a regional outage.
+3. Observe and record the system's actual behavior/response.","Redundant data centers ensure continuity during a regional outage, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_495,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: experiment data syncs correctly after reconnecting from an offline state.
+3. Observe and record the system's actual behavior/response.","Experiment data syncs correctly after reconnecting from an offline state, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_496,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: system health/status page reflects real-time platform status.
+3. Observe and record the system's actual behavior/response.","System health/status page reflects real-time platform status, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_497,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: rollback mechanism restores the previous stable version after a failed deployment.
+3. Observe and record the system's actual behavior/response.","Rollback mechanism restores the previous stable version after a failed deployment, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_498,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: disaster recovery plan restores full functionality within the defined RTO/RPO.
+3. Observe and record the system's actual behavior/response.","Disaster recovery plan restores full functionality within the defined RTO/RPO, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_499,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: experiment scheduling reliably triggers start/stop actions at the exact configured time.
+3. Observe and record the system's actual behavior/response.","Experiment scheduling reliably triggers start/stop actions at the exact configured time, meeting the defined NFR/compliance criteria.",,
+Non-Functional - Reliability,TC_500,"1. Set up the test environment/preconditions required for reliability testing.
+2. Perform the check: notification/alert delivery reliability during high-traffic events.
+3. Observe and record the system's actual behavior/response.","Notification/alert delivery reliability during high-traffic events, meeting the defined NFR/compliance criteria.",,

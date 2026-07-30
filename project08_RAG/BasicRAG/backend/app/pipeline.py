@@ -3,18 +3,20 @@ from __future__ import annotations
 import threading
 import time
 from datetime import datetime, timezone
+from pathlib import Path
 
 from . import config, embeddings, llm, vectorstore
 from .chunker import Chunk, chunk_pages
-from .pdf_loader import load_pdf_pages
+from .document_loader import load_document_pages
 
 _lock = threading.Lock()
+_current_source_path: Path = config.DEFAULT_SOURCE_PATH
 
 _state = {
     "status": "idle",  # idle | ingesting | ready | error
     "error": None,
-    "pdf_name": config.PDF_PATH.name,
-    "source_folder": str(config.PDF_PATH.parent),
+    "source_name": config.DEFAULT_SOURCE_PATH.name,
+    "source_folder": str(config.DEFAULT_SOURCE_PATH.parent),
     "num_pages": 0,
     "num_chunks": 0,
     "stored_count": 0,
@@ -58,21 +60,26 @@ def _set_step(name: str, value: str) -> None:
     _state["steps"][name] = value
 
 
-def ingest(force: bool = False) -> dict:
-    global _chunks_cache, _chunk_embedding_preview
+def ingest(force: bool = False, source_path: Path | None = None) -> dict:
+    global _chunks_cache, _chunk_embedding_preview, _current_source_path
 
     with _lock:
-        if _state["status"] == "ready" and not force:
+        if _state["status"] == "ready" and not force and source_path is None:
             return get_status()
+        if source_path is not None:
+            _current_source_path = source_path
         _state["status"] = "ingesting"
         _state["error"] = None
+        _state["source_name"] = _current_source_path.name
+        _state["source_folder"] = str(_current_source_path.parent)
         for k in _state["steps"]:
             _state["steps"][k] = "pending"
 
+    active_path = _current_source_path
     timings: dict[str, float] = {}
     try:
         t0 = time.perf_counter()
-        pages = load_pdf_pages(config.PDF_PATH)
+        pages = load_document_pages(active_path)
         timings["load_ms"] = round((time.perf_counter() - t0) * 1000, 1)
         _set_step("load", "done")
 
