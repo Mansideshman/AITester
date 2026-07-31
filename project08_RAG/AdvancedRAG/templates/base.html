@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Advanced RAG Explorer{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">◆</span>
+        <div>
+          <div class="brand-title">Advanced RAG Explorer</div>
+          <div class="brand-sub">Hybrid retrieval · rerank · VWO test cases</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="/upload" class="nav-item {{ 'active' if active == 'upload' }}"><span class="nav-num">1</span> Upload</a>
+        <a href="/ingest" class="nav-item {{ 'active' if active == 'ingest' }}"><span class="nav-num">2</span> Ingest</a>
+        <a href="/chunks" class="nav-item {{ 'active' if active == 'chunks' }}"><span class="nav-num">3</span> Chunks</a>
+        <a href="/chat" class="nav-item {{ 'active' if active == 'chat' }}"><span class="nav-num">4</span> Chat</a>
+      </nav>
+
+      <div class="stage-tracker" id="stage-tracker">
+        {% block sidebar_extra %}
+        <div class="corpus-card" id="corpus-card">
+          <div class="corpus-label">Corpus</div>
+          <div class="corpus-value" id="corpus-value">checking…</div>
+        </div>
+        {% endblock %}
+      </div>
+
+      <a class="explainer-link" href="/static/explainer.html" target="_blank">How this RAG works →</a>
+    </aside>
+
+    <main class="content">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

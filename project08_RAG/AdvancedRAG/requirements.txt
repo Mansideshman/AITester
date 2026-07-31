@@ -1,0 +1,19 @@
+Flask>=2.3,<3
+python-dotenv
+pandas
+openpyxl
+xlrd
+
+# Vector DB (embedded mode, no Docker needed) — pinned for Python 3.8
+qdrant-client==1.9.1
+
+# Hybrid dense+sparse embeddings + cross-encoder reranker (BGE family)
+FlagEmbedding==1.2.11
+peft
+torch>=2.0,<2.5
+transformers>=4.40,<4.47
+sentence-transformers>=3.0,<3.3
+
+# LLM calls (OpenAI-compatible chat completions API — works against either
+# Groq or Openrouter, selected at runtime by which API key is set)
+requests

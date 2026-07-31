@@ -21,6 +21,12 @@ for setup.
   upload of PDF/TXT/MD/DOC/DOCX, local Nomic embeddings, ChromaDB vector storage, and Groq
   answer generation, with every pipeline stage (load → chunk → embed → retrieve → generate)
   visualized live in the UI as it runs.
+- **[project08_RAG/AdvancedRAG](project08_RAG/AdvancedRAG/README.md)** — A hybrid-retrieval
+  upgrade to BasicRAG (Flask): `bge-m3` dense+sparse embeddings into Qdrant (embedded, no
+  Docker), Reciprocal Rank Fusion, a `bge-reranker-v2-m3` cross-encoder, and LLM query
+  rewriting, all streamed live via SSE across upload/ingest/chunk-browser/chat pages. Ships
+  with a synthesized 5,000-row Jira-style VWO test case corpus and an animated HTML
+  explainer of the architecture.
 - **[project08_RAG/Langflow_RAG](project08_RAG/Langflow_RAG/README.md)** — Two exported
   Langflow visual RAG flows (baseline vs. an improved multi-branch chunking strategy) plus a
   500-row sample test-case dataset used to exercise them.

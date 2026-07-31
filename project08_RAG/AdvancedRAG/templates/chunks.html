@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Chunks · Advanced RAG Explorer{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>3. Chunk browser</h1>
+  <p>Every chunk currently indexed in Qdrant. Coral outline = used in the most recent chat answer.</p>
+</div>
+
+<div class="card">
+  <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+    <input type="search" id="search-box" placeholder="Search text (substring)…" style="flex:1;min-width:200px">
+    <select id="filter-priority"><option value="">All priorities</option></select>
+    <select id="filter-module"><option value="">All modules</option></select>
+    <input type="text" id="filter-jira" placeholder="jira_id (e.g. VWO-1000)" style="width:170px">
+    <button class="btn btn-secondary" id="clear-filters">Clear</button>
+  </div>
+</div>
+
+<div id="chunk-list"></div>
+<div class="card" style="display:flex;justify-content:space-between;align-items:center">
+  <button class="btn btn-secondary" id="prev-page">← Prev</button>
+  <span id="page-info" style="color:var(--text-dim);font-size:13px"></span>
+  <button class="btn btn-secondary" id="next-page">Next →</button>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/chunks.js"></script>
+{% endblock %}

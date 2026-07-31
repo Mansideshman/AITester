@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Chat · Advanced RAG Explorer{% endblock %}
+
+{% block sidebar_extra %}
+<div class="stage-group-title">Pipeline (per query)</div>
+<div class="stage" data-stage="rewrite"><div class="stage-dot"></div><div class="stage-name">Rewrite</div><div class="stage-detail" data-detail="rewrite"></div></div>
+<div class="stage" data-stage="retrieve"><div class="stage-dot"></div><div class="stage-name">Retrieve (dense+sparse)</div><div class="stage-detail" data-detail="retrieve"></div></div>
+<div class="stage" data-stage="rerank"><div class="stage-dot"></div><div class="stage-name">Rerank</div><div class="stage-detail" data-detail="rerank"></div></div>
+<div class="stage" data-stage="generate"><div class="stage-dot"></div><div class="stage-name">Generate</div><div class="stage-detail" data-detail="generate"></div></div>
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>4. Chat</h1>
+  <p>Ask a question about the test cases, or say "create a new test case for JIRA VWO-1234" to switch to generate mode.</p>
+</div>
+
+<div class="card" style="max-height:70vh;overflow-y:auto" id="chat-scroll">
+  <div class="chat-log" id="chat-log">
+    <div class="empty-state" id="chat-empty">No messages yet. Try: "What test cases cover Split URL testing on Safari?"</div>
+  </div>
+</div>
+
+<div class="chat-input-row">
+  <input type="text" id="chat-input" placeholder="Ask a question…">
+  <button class="btn" id="chat-send">Send</button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/chat.js"></script>
+{% endblock %}
