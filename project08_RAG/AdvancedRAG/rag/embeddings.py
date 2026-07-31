@@ -19,6 +19,26 @@ def is_loaded() -> bool:
     return _model.cache_info().currsize > 0
 
 
+def embed_batch(texts: list[str]) -> dict:
+    """One bge-m3 forward pass over a single batch — the primitive callers
+    drive directly when they need to interleave progress reporting (e.g. a
+    streaming HTTP response) between batches."""
+    model = _model()
+    out = model.encode(
+        texts,
+        batch_size=len(texts),
+        max_length=config.EMBEDDING_MAX_LENGTH,
+        return_dense=True,
+        return_sparse=True,
+        return_colbert_vecs=False,
+    )
+    dense_vecs = [v.tolist() for v in out["dense_vecs"]]
+    # lexical_weights keys are token ids (numpy ints); Qdrant sparse vectors
+    # want plain ints as indices.
+    sparse_vecs = [{int(k): float(v) for k, v in weights.items()} for weights in out["lexical_weights"]]
+    return {"dense": dense_vecs, "sparse": sparse_vecs}
+
+
 def embed_texts(
     texts: list[str],
     batch_size: int = None,
@@ -26,28 +46,16 @@ def embed_texts(
 ) -> dict:
     """Returns dense (list[list[float]]) + sparse (list[dict[str,float]],
     keyed by human-readable token) vectors for a list of texts, computed in
-    batches so callers can stream progress."""
+    batches so callers can report progress."""
     batch_size = batch_size or config.INGEST_BATCH
-    model = _model()
-
     dense_vecs: list[list[float]] = []
     sparse_vecs: list[dict] = []
     total = len(texts)
     for start in range(0, total, batch_size):
         batch = texts[start:start + batch_size]
-        out = model.encode(
-            batch,
-            batch_size=len(batch),
-            max_length=config.EMBEDDING_MAX_LENGTH,
-            return_dense=True,
-            return_sparse=True,
-            return_colbert_vecs=False,
-        )
-        dense_vecs.extend(v.tolist() for v in out["dense_vecs"])
-        for weights in out["lexical_weights"]:
-            # lexical_weights keys are token ids (numpy ints); Qdrant sparse
-            # vectors want plain ints as indices.
-            sparse_vecs.append({int(k): float(v) for k, v in weights.items()})
+        result = embed_batch(batch)
+        dense_vecs.extend(result["dense"])
+        sparse_vecs.extend(result["sparse"])
         if on_batch:
             on_batch(min(start + batch_size, total), total)
 

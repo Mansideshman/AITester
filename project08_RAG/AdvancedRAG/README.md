@@ -1,17 +1,37 @@
 # Advanced RAG Explorer
 
-End-to-end teaching demo for The Testing Academy. Upgrades `BasicRAG`
+End-to-end teaching demo. Upgrades `BasicRAG`
 with techniques that matter at scale on a real corpus (5,000 VWO test cases):
 
-- **Hybrid retrieval** — `bge-m3` produces dense + sparse vectors from one model
-- **Vector DB** — Qdrant, embedded (file-store) by default — no Docker required
-- **Re-ranking** — `BAAI/bge-reranker-v2-m3` cross-encoder
+- **Hybrid retrieval** — dense + sparse vectors, fused with Reciprocal Rank Fusion
+- **Re-ranking** — a cross-encoder re-reads the top candidates before generation
 - **Query rewriting** — 3 alternate phrasings via an LLM before retrieval
 - **Generation** — grounded answers, with a "generate a new test case" mode
 
 UI uses a Claude-inspired theme (warm cream + coral) with a two-pane layout:
 left = pipeline stage tracker (live via Server-Sent Events), right = active
 content / chat.
+
+This app runs on **two different backends**, picked automatically at runtime
+by `rag/config.py` based on which env vars are set — same code, same UI,
+same pipeline shape, different infrastructure underneath:
+
+| | Local (default) | Deployed on Vercel |
+|---|---|---|
+| Dense + sparse embeddings | `bge-m3`, run locally (torch) | Upstash Vector's hosted embedding + BM25 |
+| Vector store | Qdrant, embedded file-store — no Docker | Upstash Vector (hosted hybrid index) |
+| Reranker | `BAAI/bge-reranker-v2-m3`, run locally (torch) | Cohere Rerank (hosted) |
+| Generation / rewriting | Groq | Groq |
+
+**Why two backends?** Vercel Hobby-plan functions cap at **500MB** — `torch`
+alone is ~730MB installed, so bge-m3 and the local reranker simply cannot fit
+in a deployed function no matter how the dependencies are trimmed (verified
+by direct measurement, not assumption). Swapping in hosted equivalents for
+just the embedding and rerank steps keeps the full pipeline shape intact —
+rewrite → hybrid retrieve → RRF fuse → rerank → generate — while making the
+deployed function a lean ~10MB with zero ML dependencies. Local dev is
+unaffected: with no `UPSTASH_VECTOR_REST_URL`/`COHERE_API_KEY` set, it's the
+original all-local pipeline.
 
 > **Provider note:** the original spec called for Openrouter. This machine
 > only has a `GROQ_API_KEY` provisioned (same one `BasicRAG` uses), so both
@@ -26,16 +46,16 @@ content / chat.
 ```
 Stage 1 (Ingest):
   CSV/XLSX -> rows -> assemble docs -> chunk (1 row = 1 chunk if small) ->
-  bge-m3 (dense + sparse) -> Qdrant collection 'vwo_test_cases'
+  dense + sparse embed -> index (Qdrant locally / Upstash Vector on Vercel)
 
 Stage 2 (Chat):
-  Question -> rewrite (LLM) -> embed -> dense + sparse search ->
-  RRF fuse -> bge-reranker-v2-m3 -> LLM -> grounded answer
+  Question -> rewrite (LLM) -> hybrid search (dense + sparse) ->
+  RRF fuse -> rerank (bge-reranker locally / Cohere on Vercel) -> LLM -> answer
 ```
 
 ---
 
-## Setup
+## Setup (local, full pipeline with bge-m3 + Qdrant)
 
 ```bash
 cd AdvancedRAG
@@ -71,29 +91,68 @@ python ingest.py testcase/vwo_test_cases_5000.csv \
   --meta-cols id,jira_id,priority,module
 ```
 
+Backend is auto-selected the same way the web app does — this is also how
+the full corpus gets into Upstash for the Vercel deployment (see below):
+ingestion is a one-time offline step, not something the live deployed app
+does for the full 5,000 rows.
+
+---
+
+## Deploying to Vercel
+
+The deployed version swaps local bge-m3 + Qdrant + bge-reranker for hosted
+equivalents (Upstash Vector + Cohere Rerank) — see the backend comparison
+table above for why. To stand up your own copy:
+
+1. **Create the vector store**: sign up free at [upstash.com](https://upstash.com) →
+   Vector → Create Index → type **Hybrid**, dense embedding model
+   `text-embedding-3-small` (Upstash-hosted, no OpenAI key needed), sparse
+   model **BM25**. Copy the index's REST URL + token.
+2. **Get a reranker key**: sign up free at [dashboard.cohere.com](https://dashboard.cohere.com) →
+   API keys → copy the trial key.
+3. **Link and configure the Vercel project**:
+   ```bash
+   vercel link
+   vercel env add UPSTASH_VECTOR_REST_URL production preview development
+   vercel env add UPSTASH_VECTOR_REST_TOKEN production preview development
+   vercel env add COHERE_API_KEY production preview development
+   vercel env add GROQ_API_KEY production preview development
+   vercel deploy --prod
+   ```
+4. **Ingest the corpus** into the same Upstash index from your local machine
+   (see CLI ingestion above) — the deployed app only *reads* from it.
+
+Notes on the deployment itself:
+- `api/index.py` re-exports the Flask `app` for Vercel's Python runtime;
+  `vercel.json` rewrites every path to that one function.
+- `api/requirements.txt` is a separate, much leaner dependency set than the
+  root `requirements.txt` used for local dev — no torch/transformers/
+  qdrant-client, since the deployed function never runs a local model.
+- Upstash's free tier caps at **10,000 writes/day** — comfortably covers
+  querying, but a fresh 5,000-row ingest plus iterative testing can exhaust
+  it; the daily limit resets every 24h.
+
 ---
 
 ## What you can see in the UI
 
-### `/upload`
+### `/upload` — Upload &amp; Ingest
 - File picker accepts `.csv`, `.xlsx`, `.xls`.
 - After upload: row count, columns, first 5 rows, dtypes.
 - Pick text columns (concatenated into the embedded document) and metadata
-  columns (kept in Qdrant payload for filtering).
-
-### `/ingest` (live via SSE)
-- Stage tracker shows: Read -> Build docs -> Chunk -> Embed -> Index.
-- For each stage, a card on the right shows what happened:
-  - **Chunk**: histogram, total chunks, avg/min/max chars, sample chunks.
-  - **Embed**: progress bar, dense vector preview (first 8 dims), sparse
-    top-5 tokens by weight.
-  - **Index**: Qdrant collection info.
+  columns (kept as payload, filterable) — then **Start Ingestion** streams
+  live progress through the same page: Read → Build docs → Chunk → Embed →
+  Index.
+  - **Chunk** card: histogram, total chunks, avg/min/max chars, sample chunks.
+  - **Embed** card: dense vector preview + sparse top-5 tokens locally, or a
+    note explaining hosted embedding on Vercel.
+  - **Index** card: collection/index info.
 
 ### `/chunks`
 - Paginated viewer (50/page) over the entire collection.
-- Search box (substring, via Qdrant full-text index) + filters (`priority`,
-  `module`, `jira_id`).
-- Each chunk card: id, payload, dense preview, sparse preview, full text.
+- Search box (substring) + filters (`priority`, `module`, `jira_id`).
+- Each chunk card: id, payload, dense/sparse preview (local backend only),
+  full text.
 - Chunks used in the most recent chat answer are outlined in coral.
 
 ### `/chat`

@@ -22,11 +22,14 @@ for setup.
   answer generation, with every pipeline stage (load → chunk → embed → retrieve → generate)
   visualized live in the UI as it runs.
 - **[project08_RAG/AdvancedRAG](project08_RAG/AdvancedRAG/README.md)** — A hybrid-retrieval
-  upgrade to BasicRAG (Flask): `bge-m3` dense+sparse embeddings into Qdrant (embedded, no
-  Docker), Reciprocal Rank Fusion, a `bge-reranker-v2-m3` cross-encoder, and LLM query
-  rewriting, all streamed live via SSE across upload/ingest/chunk-browser/chat pages. Ships
+  upgrade to BasicRAG (Flask): dense+sparse embeddings, Reciprocal Rank Fusion, a
+  cross-encoder reranker, and LLM query rewriting, all streamed live via SSE across
+  upload/ingest/chunk-browser/chat pages. Runs on two backends picked automatically at
+  runtime — `bge-m3` + Qdrant + `bge-reranker-v2-m3` locally, or Upstash Vector + Cohere
+  Rerank when deployed, since Vercel's function size limit can't fit `torch` at all. Ships
   with a synthesized 5,000-row Jira-style VWO test case corpus and an animated HTML
-  explainer of the architecture.
+  explainer of the architecture. Live at
+  [advanced-rag-explorer.vercel.app](https://advanced-rag-explorer.vercel.app).
 - **[project08_RAG/Langflow_RAG](project08_RAG/Langflow_RAG/README.md)** — Two exported
   Langflow visual RAG flows (baseline vs. an improved multi-branch chunking strategy) plus a
   500-row sample test-case dataset used to exercise them.

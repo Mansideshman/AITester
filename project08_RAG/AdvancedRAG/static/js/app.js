@@ -44,15 +44,39 @@ async function refreshCorpusCard() {
 
 document.addEventListener("DOMContentLoaded", refreshCorpusCard);
 
-// Consumes an SSE job stream and dispatches events to a handler.
-function streamJob(streamUrl, handlers) {
-  const source = new EventSource(streamUrl);
-  for (const [event, handler] of Object.entries(handlers)) {
-    source.addEventListener(event, (e) => {
-      const data = e.data ? JSON.parse(e.data) : {};
-      handler(data);
-    });
+// Fires a POST request whose response body is an SSE-formatted stream, and
+// dispatches parsed events to handlers as they arrive. Native EventSource
+// can't POST a body, so this reads the fetch() stream directly instead —
+// works identically for a plain Flask dev server and a Vercel Function.
+async function streamPost(url, body, handlers) {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: body instanceof FormData ? undefined : { "Content-Type": "application/json" },
+    body: body instanceof FormData ? body : JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.error || `${res.status} ${res.statusText}`);
   }
-  source.addEventListener("done", () => source.close());
-  return source;
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    let sep;
+    while ((sep = buffer.indexOf("\n\n")) !== -1) {
+      const block = buffer.slice(0, sep);
+      buffer = buffer.slice(sep + 2);
+      const eventMatch = block.match(/^event: (.+)$/m);
+      const dataMatch = block.match(/^data: (.+)$/m);
+      if (!eventMatch) continue;
+      const eventName = eventMatch[1];
+      const data = dataMatch ? JSON.parse(dataMatch[1]) : {};
+      const handler = handlers[eventName];
+      if (handler) handler(data);
+    }
+  }
 }

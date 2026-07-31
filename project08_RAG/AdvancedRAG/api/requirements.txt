@@ -1,0 +1,13 @@
+# Lean deps for the Vercel deployment (Python 3.12+ via Fluid Compute).
+# No torch/transformers/qdrant-client/sentence-transformers here at all —
+# the deployed app is fully hosted: Upstash Vector for hybrid dense+sparse
+# retrieval, Cohere Rerank for the cross-encoder step, Groq for LLM calls.
+# torch+transformers alone are 1GB+ installed, well past Vercel's 500MB
+# Hobby-plan function bundle limit, which is why local models aren't an
+# option here — see rag/config.py's VECTOR_BACKEND / RERANK_BACKEND toggles.
+Flask>=3,<4
+python-dotenv
+pandas
+openpyxl
+xlrd
+requests

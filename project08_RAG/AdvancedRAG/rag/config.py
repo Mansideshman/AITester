@@ -7,8 +7,11 @@ PROJECT_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(PROJECT_DIR / ".env")
 
+# Vercel's filesystem is read-only except /tmp; Vercel sets VERCEL=1 at runtime.
+ON_VERCEL = os.getenv("VERCEL") == "1"
+
 # --- Uploads ---
-UPLOAD_DIR = PROJECT_DIR / "uploads"
+UPLOAD_DIR = Path("/tmp/uploads") if ON_VERCEL else (PROJECT_DIR / "uploads")
 ALLOWED_UPLOAD_EXTENSIONS = {".csv", ".xlsx", ".xls"}
 MAX_UPLOAD_MB = int(os.getenv("MAX_UPLOAD_MB", "50"))
 
@@ -24,12 +27,28 @@ INGEST_BATCH = int(os.getenv("INGEST_BATCH", "16"))
 DENSE_DIM = 1024
 
 # --- Reranker ---
+# Local dev (default): bge-reranker-v2-m3 via transformers, run locally.
+# Deployed on Vercel: Cohere Rerank (hosted) — selected automatically when
+# COHERE_API_KEY is set, since torch+transformers alone (730MB+) already
+# exceed Vercel's 500MB function bundle limit on the Hobby plan.
 RERANKER_MODEL = os.getenv("RERANKER_MODEL", "BAAI/bge-reranker-v2-m3")
+COHERE_API_KEY = os.getenv("COHERE_API_KEY", "")
+COHERE_RERANK_MODEL = os.getenv("COHERE_RERANK_MODEL", "rerank-v3.5")
+RERANK_BACKEND = "cohere" if COHERE_API_KEY else "local"
 
-# --- Vector store (Qdrant, embedded file-store mode — no Docker needed) ---
-QDRANT_URL = os.getenv("QDRANT_URL", "")  # if set, connect to a real server instead
+# --- Vector store ---
+# Local dev (default): Qdrant, embedded file-store mode — no Docker needed.
+# Deployed on Vercel: Upstash Vector (hosted hybrid dense+sparse index) —
+# selected automatically when its env vars are present, since Vercel's
+# ephemeral filesystem can't hold an embedded Qdrant index and bge-m3 is too
+# slow/large to cold-start as a serverless function. See rag/upstash_store.py.
+QDRANT_URL = os.getenv("QDRANT_URL", "")  # if set, connect to a real server instead of embedded
 QDRANT_PATH = str(PROJECT_DIR / "qdrant_data")
 COLLECTION_NAME = os.getenv("COLLECTION_NAME", "vwo_test_cases")
+
+UPSTASH_VECTOR_REST_URL = os.getenv("UPSTASH_VECTOR_REST_URL", "")
+UPSTASH_VECTOR_REST_TOKEN = os.getenv("UPSTASH_VECTOR_REST_TOKEN", "")
+VECTOR_BACKEND = "upstash" if UPSTASH_VECTOR_REST_URL else "qdrant"
 
 # --- Retrieval ---
 TOP_N_HYBRID = int(os.getenv("TOP_N_HYBRID", "20"))

@@ -83,10 +83,7 @@ async function sendMessage() {
 
   const turn = {};
   try {
-    const { job_id } = await fetchJSON("/api/chat/start", {
-      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question }),
-    });
-    streamJob(`/api/chat/stream/${job_id}`, {
+    await streamPost("/api/chat", { question }, {
       stage: (d) => {
         setStage(d.stage, d.status === "running" ? "active" : "done");
         if (d.stage === "rewrite" && d.status === "done") {

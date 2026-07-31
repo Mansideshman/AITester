@@ -1,9 +1,31 @@
 {% extends "base.html" %}
-{% block title %}Upload · Advanced RAG Explorer{% endblock %}
+{% block title %}Upload &amp; Ingest · Advanced RAG Explorer{% endblock %}
+
+{% block sidebar_extra %}
+<div id="corpus-tracker">
+  <div class="corpus-card" id="corpus-card">
+    <div class="corpus-label">Corpus</div>
+    <div class="corpus-value" id="corpus-value">checking…</div>
+  </div>
+</div>
+<div id="pipeline-tracker" style="display:none">
+  <div class="stage-group-title">Pipeline</div>
+  <div class="stage" data-stage="read"><div class="stage-dot"></div><div class="stage-name">Read</div><div class="stage-detail" data-detail="read"></div></div>
+  <div class="stage" data-stage="build"><div class="stage-dot"></div><div class="stage-name">Build docs</div><div class="stage-detail" data-detail="build"></div></div>
+  <div class="stage" data-stage="chunk"><div class="stage-dot"></div><div class="stage-name">Chunk</div><div class="stage-detail" data-detail="chunk"></div></div>
+  <div class="stage" data-stage="embed">
+    <div class="stage-dot"></div><div class="stage-name">Embed</div>
+    <div class="stage-detail" data-detail="embed"></div>
+    <div class="stage-progress-bar"><div class="stage-progress-fill" data-progress="embed" style="width:0%"></div></div>
+  </div>
+  <div class="stage" data-stage="index"><div class="stage-dot"></div><div class="stage-name">Index</div><div class="stage-detail" data-detail="index"></div></div>
+</div>
+{% endblock %}
+
 {% block content %}
 <div class="page-header">
-  <h1>1. Upload your corpus</h1>
-  <p>Accepts .csv, .xlsx, .xls — designed for the 5,000-row VWO test case export in <span class="mono">testcase/vwo_test_cases_5000.csv</span>.</p>
+  <h1>1. Upload &amp; Ingest</h1>
+  <p>Read → build docs → chunk → embed (dense + sparse) → index. Accepts .csv, .xlsx, .xls — designed for the 5,000-row VWO test case export in <span class="mono">testcase/vwo_test_cases_5000.csv</span>.</p>
 </div>
 
 <div class="card">
@@ -33,15 +55,17 @@
         <div class="col-checks" id="text-col-checks"></div>
       </div>
       <div>
-        <h3>Metadata columns (kept in Qdrant payload, filterable)</h3>
+        <h3>Metadata columns (kept as payload, filterable)</h3>
         <div class="col-checks" id="meta-col-checks"></div>
       </div>
     </div>
     <div style="margin-top:20px">
-      <button class="btn" id="continue-btn">Continue to Ingest →</button>
+      <button class="btn" id="start-btn">Start Ingestion</button>
     </div>
   </div>
 </div>
+
+<div id="results"></div>
 {% endblock %}
 {% block scripts %}
 <script src="/static/js/upload.js"></script>

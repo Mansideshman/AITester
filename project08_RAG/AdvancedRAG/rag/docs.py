@@ -14,6 +14,17 @@ def load_table(path: Path) -> pd.DataFrame:
     raise ValueError(f"Unsupported file type: {suffix}")
 
 
+def load_table_from_upload(file_storage) -> pd.DataFrame:
+    """Parses directly from an uploaded file's in-memory stream — no disk
+    write needed, which also keeps this safe on Vercel's read-only filesystem."""
+    suffix = Path(file_storage.filename).suffix.lower()
+    if suffix == ".csv":
+        return pd.read_csv(file_storage, dtype=str, keep_default_na=False)
+    if suffix in (".xlsx", ".xls"):
+        return pd.read_excel(file_storage, dtype=str)
+    raise ValueError(f"Unsupported file type: {suffix}")
+
+
 def preview(df: pd.DataFrame, n: int = 5) -> dict:
     return {
         "row_count": len(df),

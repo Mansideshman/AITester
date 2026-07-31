@@ -4,13 +4,20 @@ runs, e.g.:
     python ingest.py testcase/vwo_test_cases_5000.csv \
         --text-cols title,steps,expected,tags \
         --meta-cols id,jira_id,priority,module
+
+Backend (Qdrant vs. Upstash Vector) is selected automatically by rag/config.py
+based on whether UPSTASH_VECTOR_REST_URL is set — same as the web app. This is
+how the full 5,000-row corpus gets into Upstash for the Vercel deployment:
+ingestion itself takes ~30+ min, far past any serverless function timeout, so
+it has to run from here, once, against the same hosted index the deployed
+app reads from.
 """
 from __future__ import annotations
 
 import argparse
 from pathlib import Path
 
-from rag import chunking, docs, embeddings, vectorstore
+from rag import chunking, config, docs
 
 
 def main():
@@ -34,20 +41,30 @@ def main():
     chunk_records = chunking.chunk_docs(assembled)
     print(f"  {len(chunk_records)} chunks")
 
-    print("Embedding with bge-m3 (dense + sparse)… this loads a ~2.3GB model on first run.")
-    texts = [c["text"] for c in chunk_records]
+    print(f"Vector backend: {config.VECTOR_BACKEND}")
+    if config.VECTOR_BACKEND == "upstash":
+        from rag import upstash_store
+        print("Upserting to Upstash Vector (hosted dense+sparse embedding, computed server-side)…")
+        upstash_store.recreate_collection()
+        upstash_store.upsert_chunks(chunk_records)
+        info = upstash_store.collection_info()
+        print(f"Done. {info}")
+    else:
+        from rag import embeddings, vectorstore
+        print("Embedding with bge-m3 (dense + sparse)… this loads a ~2.3GB model on first run.")
+        texts = [c["text"] for c in chunk_records]
 
-    def on_batch(done, total):
-        print(f"  embedded {done}/{total}", end="\r")
+        def on_batch(done, total):
+            print(f"  embedded {done}/{total}", end="\r")
 
-    vectors = embeddings.embed_texts(texts, on_batch=on_batch)
-    print()
+        vectors = embeddings.embed_texts(texts, on_batch=on_batch)
+        print()
 
-    print("Indexing into Qdrant…")
-    vectorstore.recreate_collection()
-    vectorstore.upsert_chunks(chunk_records, vectors["dense"], vectors["sparse"])
-    info = vectorstore.collection_info()
-    print(f"Done. Collection '{vectorstore.config.COLLECTION_NAME}': {info}")
+        print("Indexing into Qdrant…")
+        vectorstore.recreate_collection()
+        vectorstore.upsert_chunks(chunk_records, vectors["dense"], vectors["sparse"])
+        info = vectorstore.collection_info()
+        print(f"Done. Collection '{config.COLLECTION_NAME}': {info}")
 
 
 if __name__ == "__main__":

@@ -2,7 +2,15 @@ from __future__ import annotations
 
 from functools import lru_cache
 
-from qdrant_client import QdrantClient, models
+try:
+    # Only needed for the local embedded-Qdrant backend. Not installed in the
+    # lean Vercel deployment (which uses rag/upstash_store.py instead), so
+    # this import is optional — callers must not reach this module when
+    # config.VECTOR_BACKEND != "qdrant".
+    from qdrant_client import QdrantClient, models
+except ImportError:
+    QdrantClient = None
+    models = None
 
 from . import config
 
