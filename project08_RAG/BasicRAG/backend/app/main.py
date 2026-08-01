@@ -41,6 +41,14 @@ class QueryRequest(BaseModel):
 
 @app.on_event("startup")
 def startup_ingest() -> None:
+    if config.VECTOR_BACKEND == "upstash":
+        # Deployed: the corpus is pre-ingested once, offline, into the shared
+        # Upstash index (see ingest_default.py) — a background thread here
+        # wouldn't reliably survive a serverless cold start anyway, and
+        # pipeline.get_status() already reconciles with the real vector
+        # store's contents on every request.
+        return
+
     def _run():
         try:
             logger.info("Starting automatic PDF ingestion...")

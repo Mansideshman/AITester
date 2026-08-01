@@ -5,6 +5,22 @@ DOC, or DOCX file (or use the bundled VWO Product Requirements Document by defau
 the React UI shows every stage of the pipeline as it happens: ingestion → chunking →
 embedding (Nomic) → storage (ChromaDB) → retrieval → answer generation (Groq).
 
+**Live at:** [basic-rag-explorer-five.vercel.app](https://basic-rag-explorer-five.vercel.app)
+
+Like `AdvancedRAG`, this runs on **two backends** picked automatically at runtime
+(`backend/app/config.py`'s `VECTOR_BACKEND`, based on which env vars are set):
+
+| | Local (default) | Deployed on Vercel |
+|---|---|---|
+| Embeddings | `nomic-embed-text-v1.5`, run locally (torch) | Upstash Vector's hosted embedding |
+| Vector store | ChromaDB, persisted to disk | Upstash Vector (its own `basicrag` namespace) |
+| Ingestion trigger | Auto-ingest on backend startup | Pre-ingested once from local machine; `/api/status` reconciles with the real store on every cold start |
+
+**Why?** `sentence-transformers` alone pulls in `torch` (~1.6GB installed) — Vercel's
+Hobby-plan functions cap at 500MB, so no local embedding model can run there at all (the
+same wall hit deploying `AdvancedRAG`). Upstash Vector shares one free-tier index with
+`AdvancedRAG`, kept separate via a `basicrag` namespace. Local dev is unaffected.
+
 ## Architecture
 
 - **Backend** (`backend/`): FastAPI app. On startup it automatically ingests the default
@@ -69,6 +85,38 @@ npm run dev
 ```
 
 Open `http://localhost:5173`.
+
+## Deploying to Vercel
+
+1. **Vector store**: create a free Upstash Vector index (Hybrid type, dense embedding
+   model = hosted, sparse = BM25) at [upstash.com](https://upstash.com), or reuse an
+   existing one — this app only needs its own namespace, not a dedicated index.
+2. **Link and configure**:
+   ```bash
+   vercel link
+   vercel env add UPSTASH_VECTOR_REST_URL production preview development
+   vercel env add UPSTASH_VECTOR_REST_TOKEN production preview development
+   vercel env add UPSTASH_NAMESPACE production preview development   # e.g. "basicrag"
+   vercel env add GROQ_API_KEY production preview development
+   vercel deploy --prod
+   ```
+3. **Ingest the default PDF** (or your own document) into that namespace from your local
+   machine with `UPSTASH_*` env vars set in `backend/.env` — the deployed app only reads,
+   it never runs the multi-minute local-ingest path itself:
+   ```bash
+   cd backend && source venv/bin/activate
+   python -c "from app import pipeline; print(pipeline.ingest(force=True))"
+   ```
+
+Notes on the deployment itself:
+- `api/index.py` re-exports the FastAPI `app` for Vercel's Python runtime; `vercel.json`
+  builds `frontend/` as the static site and rewrites `/api/*` to that one function.
+- `api/requirements.txt` is a separate, much leaner dependency set than
+  `backend/requirements.txt` — no `sentence-transformers`/`torch`/`chromadb`.
+- `.doc` uploads aren't supported in this deployment (no LibreOffice binary available
+  serverless) — PDF, TXT, MD, and DOCX all work fine.
+- Uploads write to `/tmp` (ephemeral) rather than `backend/uploads/`, since Vercel's
+  filesystem is read-only outside `/tmp`.
 
 ## How it works, end to end
 

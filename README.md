@@ -20,7 +20,10 @@ for setup.
   Retrieval-Augmented Generation pipeline (FastAPI + React) built from scratch: drag-and-drop
   upload of PDF/TXT/MD/DOC/DOCX, local Nomic embeddings, ChromaDB vector storage, and Groq
   answer generation, with every pipeline stage (load → chunk → embed → retrieve → generate)
-  visualized live in the UI as it runs.
+  visualized live in the UI as it runs. Like AdvancedRAG, swaps to a hosted embedding
+  backend (Upstash Vector) when deployed, since Vercel's function size limit can't fit
+  `torch`. Live at
+  [basic-rag-explorer-five.vercel.app](https://basic-rag-explorer-five.vercel.app).
 - **[project08_RAG/AdvancedRAG](project08_RAG/AdvancedRAG/README.md)** — A hybrid-retrieval
   upgrade to BasicRAG (Flask): dense+sparse embeddings, Reciprocal Rank Fusion, a
   cross-encoder reranker, and LLM query rewriting, all streamed live via SSE across

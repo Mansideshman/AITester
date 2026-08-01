@@ -39,20 +39,26 @@ def _load_docx(path: Path) -> list[PageText]:
 
 def _load_doc_via_libreoffice(path: Path) -> list[PageText]:
     with tempfile.TemporaryDirectory() as tmp_dir:
-        result = subprocess.run(
-            [
-                "soffice",
-                "--headless",
-                "--convert-to",
-                "txt:Text",
-                "--outdir",
-                tmp_dir,
-                str(path),
-            ],
-            capture_output=True,
-            text=True,
-            timeout=60,
-        )
+        try:
+            result = subprocess.run(
+                [
+                    "soffice",
+                    "--headless",
+                    "--convert-to",
+                    "txt:Text",
+                    "--outdir",
+                    tmp_dir,
+                    str(path),
+                ],
+                capture_output=True,
+                text=True,
+                timeout=60,
+            )
+        except FileNotFoundError as exc:
+            raise UnsupportedDocumentError(
+                "'.doc' files require LibreOffice ('soffice' on PATH), which isn't available in "
+                "this deployment. Convert to .docx/.pdf/.txt first, or run this app locally."
+            ) from exc
         if result.returncode != 0:
             raise RuntimeError(f"Failed to convert .doc file: {result.stderr or result.stdout}")
 

@@ -1,0 +1,14 @@
+# Lean deps for the Vercel deployment (Python 3.12+ via Fluid Compute).
+# No sentence-transformers/torch/chromadb/pysqlite3-binary here — the
+# deployed app uses Upstash Vector (hosted embeddings) instead of local
+# nomic-embed + ChromaDB. sentence-transformers alone pulls in torch
+# (~1.6GB installed), far past Vercel's 500MB Hobby-plan function limit
+# (same constraint hit deploying AdvancedRAG). See backend/app/config.py's
+# VECTOR_BACKEND toggle.
+fastapi
+python-dotenv
+pypdf
+python-docx
+python-multipart
+requests
+groq

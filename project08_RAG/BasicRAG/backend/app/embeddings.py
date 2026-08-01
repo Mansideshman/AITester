@@ -2,13 +2,16 @@ from __future__ import annotations
 
 from functools import lru_cache
 
-from sentence_transformers import SentenceTransformer
-
 from . import config
 
 
 @lru_cache(maxsize=1)
-def _model() -> SentenceTransformer:
+def _model():
+    # Imported lazily: only needed for the local ChromaDB backend. Not
+    # installed in the lean Vercel deployment, which uses Upstash Vector's
+    # hosted embeddings instead — see config.VECTOR_BACKEND.
+    from sentence_transformers import SentenceTransformer
+
     return SentenceTransformer(config.EMBEDDING_MODEL, trust_remote_code=True, device="cpu")
 
 

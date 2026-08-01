@@ -45,7 +45,22 @@ _chunk_embedding_preview: dict[str, list[float]] = {}
 
 def get_status() -> dict:
     with _lock:
-        return dict(_state, steps=dict(_state["steps"]), timings_ms=dict(_state["timings_ms"]))
+        snapshot = dict(_state, steps=dict(_state["steps"]), timings_ms=dict(_state["timings_ms"]))
+
+    # On a fresh serverless cold start, in-memory state always resets to
+    # "idle" even though the vector store itself (Upstash) already has data
+    # from a prior ingest — reconcile against the real backend so /api/status
+    # doesn't lie to the frontend about needing to re-ingest.
+    if snapshot["status"] == "idle":
+        try:
+            count = vectorstore.collection_count()
+        except Exception:
+            count = 0
+        if count > 0:
+            snapshot["status"] = "ready"
+            snapshot["stored_count"] = count
+            snapshot["steps"] = {k: "done" for k in snapshot["steps"]}
+    return snapshot
 
 
 def get_chunks() -> list[dict]:
@@ -89,7 +104,9 @@ def ingest(force: bool = False, source_path: Path | None = None) -> dict:
         _set_step("chunk", "done")
 
         t0 = time.perf_counter()
-        vectors = embeddings.embed_documents([c["text"] for c in chunks])
+        vectors = None
+        if config.VECTOR_BACKEND != "upstash":
+            vectors = embeddings.embed_documents([c["text"] for c in chunks])
         timings["embed_ms"] = round((time.perf_counter() - t0) * 1000, 1)
         _set_step("embed", "done")
 
@@ -99,7 +116,7 @@ def ingest(force: bool = False, source_path: Path | None = None) -> dict:
         timings["store_ms"] = round((time.perf_counter() - t0) * 1000, 1)
         _set_step("store", "done")
 
-        preview = {c["id"]: v[:8] for c, v in zip(chunks, vectors)}
+        preview = {c["id"]: v[:8] for c, v in zip(chunks, vectors)} if vectors else {}
 
         with _lock:
             _chunks_cache = chunks
@@ -110,7 +127,7 @@ def ingest(force: bool = False, source_path: Path | None = None) -> dict:
                     "num_pages": len(pages),
                     "num_chunks": len(chunks),
                     "stored_count": vectorstore.collection_count(),
-                    "embedding_dims": len(vectors[0]) if vectors else embeddings.embedding_dimensions(),
+                    "embedding_dims": len(vectors[0]) if vectors else None,
                     "ingested_at": datetime.now(timezone.utc).isoformat(),
                     "timings_ms": timings,
                     "sample_embedding": vectors[0][:8] if vectors else [],
@@ -149,15 +166,19 @@ def reset() -> dict:
 
 
 def answer_question(question: str) -> dict:
-    if _state["status"] != "ready":
+    # Don't trust in-memory _state alone — on a fresh serverless cold start
+    # it's always "idle" even when the vector store already has data.
+    if get_status()["status"] != "ready":
         raise RuntimeError("Ingestion has not completed yet. Try again shortly.")
 
     t0 = time.perf_counter()
-    query_vector = embeddings.embed_query(question)
+    query_vector = None
+    if config.VECTOR_BACKEND != "upstash":
+        query_vector = embeddings.embed_query(question)
     embed_ms = round((time.perf_counter() - t0) * 1000, 1)
 
     t0 = time.perf_counter()
-    hits = vectorstore.query(query_vector, config.TOP_K)
+    hits = vectorstore.query(question, query_vector, config.TOP_K)
     retrieve_ms = round((time.perf_counter() - t0) * 1000, 1)
 
     t0 = time.perf_counter()
