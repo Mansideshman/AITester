@@ -36,6 +36,15 @@ for setup.
 - **[project08_RAG/Langflow_RAG](project08_RAG/Langflow_RAG/README.md)** — Two exported
   Langflow visual RAG flows (baseline vs. an improved multi-branch chunking strategy) plus a
   500-row sample test-case dataset used to exercise them.
+- **[project9_QABuddyAI](project9_QABuddyAI/README.md)** — A self-hosted, multi-source
+  hybrid-RAG QA assistant: ask one question, get a cited answer grounded across a Selenium
+  framework, a Playwright framework, a 5,000-row test-case repository, JIRA history, PRDs,
+  meeting notes, and Jenkins CI logs. Reuses AdvancedRAG's `bge-m3` dense+sparse + Qdrant +
+  cross-encoder-rerank core, re-architected for a VPS deployment (no Vercel size limits) with
+  source-type-aware chunking — code, CSV rows, prose, and logs each chunked differently — and
+  idempotent per-source ingestion. Ships with a React + TypeScript + shadcn/ui dashboard: a
+  chat page with a live SSE-streamed rewrite→retrieve→rerank→generate pipeline, and a sources
+  page with file-upload ingestion and per-source status.
 - **[project_07_AI_Agents_LangFlow](project_07_AI_Agents_LangFlow/README.md)** — QA agents
   built on Langflow's low-code flow engine, each exposed as a REST endpoint and fronted by a
   React UI: a **Flaky Test Analyzer** that diffs two Playwright `results.json` runs and

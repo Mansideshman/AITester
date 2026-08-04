@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+
+qdrant_data/
+
+# Data dropped by the user (repos, CSVs, PDFs, logs) is large/private and
+# shouldn't land in this portfolio repo — but keep the folder READMEs.
+data/*/*
+!data/*/README.md

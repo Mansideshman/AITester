@@ -1,0 +1,67 @@
+from __future__ import annotations
+
+from functools import lru_cache
+from typing import Callable
+
+from . import config
+
+
+@lru_cache(maxsize=1)
+def _model():
+    # Imported lazily: torch + transformers are slow to import and we don't
+    # want that cost paid on every worker boot, only on first use.
+    from FlagEmbedding import BGEM3FlagModel
+
+    return BGEM3FlagModel(config.EMBEDDING_MODEL, use_fp16=config.BGE_USE_FP16)
+
+
+def is_loaded() -> bool:
+    return _model.cache_info().currsize > 0
+
+
+def embed_batch(texts: list[str]) -> dict:
+    """One bge-m3 forward pass over a single batch — the primitive callers
+    drive directly when they need to interleave progress reporting (e.g. a
+    streaming HTTP response) between batches."""
+    model = _model()
+    out = model.encode(
+        texts,
+        batch_size=len(texts),
+        max_length=config.EMBEDDING_MAX_LENGTH,
+        return_dense=True,
+        return_sparse=True,
+        return_colbert_vecs=False,
+    )
+    dense_vecs = [v.tolist() for v in out["dense_vecs"]]
+    # lexical_weights keys are token ids (numpy ints); Qdrant sparse vectors
+    # want plain ints as indices.
+    sparse_vecs = [{int(k): float(v) for k, v in weights.items()} for weights in out["lexical_weights"]]
+    return {"dense": dense_vecs, "sparse": sparse_vecs}
+
+
+def embed_texts(
+    texts: list[str],
+    batch_size: int = None,
+    on_batch: Callable[[int, int], None] = None,
+) -> dict:
+    """Returns dense (list[list[float]]) + sparse (list[dict[str,float]],
+    keyed by token id) vectors for a list of texts, computed in batches so
+    callers can report progress."""
+    batch_size = batch_size or config.INGEST_BATCH
+    dense_vecs: list[list[float]] = []
+    sparse_vecs: list[dict] = []
+    total = len(texts)
+    for start in range(0, total, batch_size):
+        batch = texts[start:start + batch_size]
+        result = embed_batch(batch)
+        dense_vecs.extend(result["dense"])
+        sparse_vecs.extend(result["sparse"])
+        if on_batch:
+            on_batch(min(start + batch_size, total), total)
+
+    return {"dense": dense_vecs, "sparse": sparse_vecs}
+
+
+def embed_query(text: str) -> dict:
+    result = embed_texts([text], batch_size=1)
+    return {"dense": result["dense"][0], "sparse": result["sparse"][0]}
