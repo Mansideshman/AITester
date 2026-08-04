@@ -88,6 +88,23 @@ serves automatically (mounted at `/`, alongside the `/api/*` routes) if
 present — so a single `uvicorn` process can serve both API and UI in
 production.
 
+## Deploy to production
+
+`deploy/` has a real, tested, one-command deployment path to any Ubuntu VPS
+(DigitalOcean, Hetzner, Oracle Cloud, a work server — nothing here is
+provider-specific): systemd units, an nginx reverse-proxy config tuned for
+SSE streaming, and an idempotent `deploy.sh` that installs everything,
+builds the frontend, and starts the service. See
+[deploy/README.md](deploy/README.md) for prerequisites, sizing guidance, and
+step-by-step instructions.
+
+The currently-live frontend-only demo at
+[qabuddyai-dashboard.vercel.app](https://qabuddyai-dashboard.vercel.app) has
+no backend attached — deploying with `deploy/deploy.sh` gives you a fully
+self-hosted copy (one process serves both UI and API), or you can wire the
+Vercel deployment to a deployed backend instead (see deploy/README.md's
+"Connecting the Vercel frontend to this backend" section).
+
 ## What's not built yet (see ARCHITECTURE.md for the full list)
 
 Live JIRA MCP/JQL integration, Figma ingestion, audio transcription, and

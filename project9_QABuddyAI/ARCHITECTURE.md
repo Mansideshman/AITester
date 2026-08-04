@@ -140,25 +140,43 @@ replaces only that source_type's chunks (`vectorstore.delete_source_type`),
 leaving every other source untouched — so re-ingesting an updated test-case
 CSV doesn't require re-ingesting the Selenium repo too.
 
-## Deployment (DigitalOcean VPS)
+## Deployment (any VPS — not DigitalOcean-specific)
 
-`uvicorn qabuddy.api.app:app --workers 1`, behind nginx/Caddy for TLS.
+`uvicorn qabuddy.api.app:app --workers 1`, behind nginx for TLS.
 **One worker is deliberate**: bge-m3 + bge-reranker-v2-m3 are loaded
 in-process (~2.3GB+ combined) and extra workers would each load their own
 copy, multiplying RAM for no throughput benefit at QA-team query volumes.
 Embedded Qdrant's file-store also only supports one writer process, which
 matches `--workers 1` naturally.
 
-Planned `systemd` units (not created yet — hook points only):
-- `qabuddyai.service` — `ExecStart=.venv/bin/uvicorn qabuddy.api.app:app --workers 1`, `EnvironmentFile=.env`, `Restart=on-failure`.
-- `qabuddyai-ingest.timer` (`OnCalendar=hourly`) → `qabuddyai-ingest.service` (`Type=oneshot`, `ExecStart=... -m qabuddy.ingest`) — this is where **phase 2's hourly auto-ingestion** plugs in; `POST /ingest` and `python -m qabuddy.ingest` are already built to support it directly.
+**Fully built, in `deploy/`** — a real, tested, idempotent deploy path, not
+just a plan:
+- `deploy/deploy.sh` — one script, run as root on any fresh Ubuntu 22.04+
+  server (provider-agnostic; nothing DigitalOcean-specific): installs
+  dependencies, sparse-checks out `project9_QABuddyAI/` from this monorepo,
+  builds the frontend, installs systemd units, configures nginx (with
+  `proxy_buffering off` for SSE) and `ufw`, and sets up TLS via certbot if a
+  domain is given. Safe to re-run as the update path.
+- `deploy/qabuddyai.service` — the app itself.
+- `deploy/qabuddyai-ingest.service` + `.timer` (`OnCalendar=hourly`,
+  installed but **not enabled by default**) — this is where **phase 2's
+  hourly auto-ingestion** plugs in. Note it triggers ingestion via
+  `curl -X POST http://127.0.0.1:8000/api/ingest` against the already-running
+  app, not a second `python -m qabuddy.ingest` process — embedded Qdrant's
+  file-store only allows one process to hold it open at a time, so a
+  separate process would fail with a lock conflict while the service is up.
+- `deploy/nginx-qabuddyai.conf` — reverse proxy template.
+- `deploy/README.md` — full guide: prerequisites, sizing guidance, quick
+  start, post-deploy steps, troubleshooting.
+
+See `deploy/README.md` for the actual deployment instructions.
 
 ## What phase 1 explicitly does NOT do
 
 - **Live JIRA API/MCP pull via JQL** — `qabuddy/loaders/jira_loader.py` only reads manually-exported JSON/CSV files; see its `# TODO` marker for where the MCP/JQL integration plugs in once the connection + JQL are shared, per `qabuddy-ai-build-prompt.md` §4.
 - **Figma integration** — `data/figma_designs/README.md` stub only, no loader, `source_type=figma_design` never populated.
 - **Audio transcription** — `meeting_note_loader.py` assumes already-transcribed `.txt`/`.md` files.
-- **Hourly auto-ingestion** — documented hook point only (above), not scheduled.
+- **Hourly auto-ingestion** — the systemd timer is installed by `deploy.sh` but not enabled by default (above); enabling it re-ingests everything unconditionally, not true change-detection.
 - **Test-case "generate a new test case" mode** — `/chat` answers grounded questions only; authoring is out of scope for phase 1.
 
 A browser upload UI **is** built (not on this list): the Sources page in

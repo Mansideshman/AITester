@@ -1,0 +1,19 @@
+[Unit]
+Description=QABuddyAI scheduled ingestion (all source_types)
+# Triggers ingestion through the already-running app's own HTTP API rather
+# than spawning a separate `python -m qabuddy.ingest` process. Embedded
+# Qdrant's file-store only allows one process to hold it open at a time
+# (see qabuddy/vectorstore.py's thread-lock comment) — qabuddyai.service is
+# always running, so a second process opening the same qdrant_data path
+# would fail immediately with "already accessed by another instance."
+# Going through the running app's own client instead sidesteps that.
+After=qabuddyai.service
+Requires=qabuddyai.service
+
+[Service]
+Type=oneshot
+# --fail: non-2xx exits non-zero so a broken ingest shows as a failed unit
+# (visible in `systemctl status` / `journalctl`), not a silent no-op.
+# --max-time: ingesting all sources can take a while on first run (see
+# deploy/README.md's note on CPU-bound bge-m3 inference); generous ceiling.
+ExecStart=/usr/bin/curl --fail --silent --show-error --max-time 3600 -X POST http://127.0.0.1:8000/api/ingest

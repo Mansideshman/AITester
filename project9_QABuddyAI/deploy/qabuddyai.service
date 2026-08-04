@@ -1,0 +1,31 @@
+[Unit]
+Description=QABuddyAI FastAPI backend (+ frontend static files)
+After=network.target
+
+[Service]
+Type=simple
+User=qabuddyai
+Group=qabuddyai
+WorkingDirectory=/opt/qabuddyai/app
+EnvironmentFile=/opt/qabuddyai/app/.env
+ExecStart=/opt/qabuddyai/app/.venv/bin/uvicorn qabuddy.api.app:app --host 127.0.0.1 --port 8000 --workers 1
+Restart=on-failure
+RestartSec=5
+
+# --workers 1 is deliberate: bge-m3 + bge-reranker-v2-m3 are loaded in-process
+# (~2.3GB+ combined) via a per-process lru_cache; extra workers would each load
+# their own copy, multiplying RAM for no throughput benefit at QA-team query
+# volumes. Embedded Qdrant's file-store also only supports one writer process.
+
+# Light sandboxing — tightenable further, but the app needs write access to
+# its own qdrant_data/ and to /tmp for file uploads. /opt/qabuddyai/app is a
+# symlink to the real checkout (/opt/qabuddyai/repo/project9_QABuddyAI) —
+# both are listed since systemd's ReadWritePaths resolution of symlinked
+# targets isn't guaranteed across all versions.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/opt/qabuddyai/app /opt/qabuddyai/repo/project9_QABuddyAI
+
+[Install]
+WantedBy=multi-user.target

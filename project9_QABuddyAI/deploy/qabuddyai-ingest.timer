@@ -1,0 +1,11 @@
+[Unit]
+Description=Run QABuddyAI ingestion hourly (phase 2 — disabled by default)
+
+[Timer]
+OnCalendar=hourly
+# Spreads load if this pattern is reused across multiple deployments; harmless for one.
+RandomizedDelaySec=120
+Persistent=true
+
+[Install]
+WantedBy=timers.target
