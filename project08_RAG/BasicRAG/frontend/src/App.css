@@ -556,7 +556,7 @@
   .app-grid {
     grid-template-columns: 1fr;
   }
-  .chunk-explorer {
+  .ingestion-panel {
     position: static;
     max-height: 400px;
   }
