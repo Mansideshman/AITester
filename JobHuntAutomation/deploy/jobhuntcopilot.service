@@ -1,0 +1,26 @@
+[Unit]
+Description=JobHunt Copilot (Express API + built frontend static files)
+After=network.target
+
+[Service]
+Type=simple
+User=jobhuntcopilot
+Group=jobhuntcopilot
+WorkingDirectory=/opt/jobhuntcopilot/app/backend
+EnvironmentFile=/opt/jobhuntcopilot/app/backend/.env
+ExecStart=/usr/bin/node dist/index.js
+Restart=on-failure
+RestartSec=5
+
+# /opt/jobhuntcopilot/app is a symlink to the real checkout
+# (/opt/jobhuntcopilot/repo/JobHuntAutomation) — both are listed since systemd's
+# ReadWritePaths resolution of symlinked targets isn't guaranteed across all versions.
+# The SQLite database itself lives outside both, in /opt/jobhuntcopilot/data, so a
+# `git pull` + rebuild never touches real data.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/opt/jobhuntcopilot/app /opt/jobhuntcopilot/repo/JobHuntAutomation /opt/jobhuntcopilot/data
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id             String   @id @default(cuid())
+  name           String
+  base           String
+  constraints    String // JSON
+  targetTitles   String // JSON string[]
+  verifiedMetrics String // JSON string[]
+  resumeText     String
+  updatedAt      DateTime @updatedAt
+}
+
+model SearchConfig {
+  id          String   @id @default(cuid())
+  keywords    String // JSON string[]
+  locations   String // JSON string[]
+  workType    String // JSON string[]
+  datePosted  String   @default("r86400") // r86400 | r604800
+  jobType     String // JSON string[]
+  spendCapUsd Float    @default(0.25)
+  lastLocationIndex Int @default(0) // round-robins `locations` across successive fetches
+  updatedAt   DateTime @updatedAt
+}
+
+model Job {
+  id           String   @id @default(cuid())
+  externalId   String
+  source       String // linkedin | indeed
+  title        String
+  company      String
+  location     String
+  workType     String?
+  postedTime   String?
+  jdUrl        String?
+  applyUrl     String?
+  jdText       String?
+  estPay       String?
+  tzOverlap    String   @default("none") // full | partial | none
+  fitScore     Int      @default(0)
+  fitReasons   String   @default("[]") // JSON string[]
+  flags        String   @default("[]") // JSON string[]
+  status       String   @default("saved") // saved|dismissed
+  createdAt    DateTime @default(now())
+
+  resumeVersions ResumeVersion[]
+  drafts         Draft[]
+  application    Application?
+
+  @@unique([source, externalId])
+}
+
+model ResumeVersion {
+  id        String   @id @default(cuid())
+  jobId     String
+  summary   String
+  skills    String // JSON string[]
+  bullets   String // JSON string[]
+  atsText   String
+  diff      String // JSON string[]
+  createdAt DateTime @default(now())
+
+  job Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
+}
+
+model Draft {
+  id        String   @id @default(cuid())
+  jobId     String
+  type      String // coverLetter | coldEmail
+  body      String
+  createdAt DateTime @default(now())
+
+  job Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
+}
+
+model Application {
+  id                String    @id @default(cuid())
+  jobId             String    @unique
+  company           String
+  title             String
+  status            String    @default("Saved") // Saved|Applied|Screening|Interview|Offer|Rejected
+  appliedDate       DateTime?
+  resumeVersionId   String?
+  coverLetterSent   Boolean   @default(false)
+  coldEmailSent     Boolean   @default(false)
+  recruiter         String?
+  nextAction        String?
+  nextActionDate    DateTime?
+  notes             String?
+  timeZone          String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  job Job @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([company, title])
+}
+
+model RunLog {
+  id           String   @id @default(cuid())
+  source       String
+  itemsFetched Int      @default(0)
+  costUsd      Float    @default(0)
+  mode         String   @default("mock") // mock | live
+  createdAt    DateTime @default(now())
+}
