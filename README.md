@@ -108,6 +108,13 @@ for setup.
   content-engine skill that turns one QA topic into a full multi-platform content pack in a
   consistent brand voice.
 
+## Practice & Learning
+
+- **[Python_LLMEvaluation](Python_LLMEvaluation/README.md)** — Python fundamentals practice
+  and logic-building drills (logic scripts + sequential labs covering core Python through
+  OOP and pytest), used as a hand-written baseline to evaluate LLM-generated Python
+  solutions against.
+
 ## Contributing
 
 - Add new projects under the workspace root and update this README.
