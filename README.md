@@ -57,6 +57,12 @@ for setup.
   into a LinkedIn post, Medium article, Instagram/YouTube scripts, and matching AI-generated
   images (Groq Llama 3.3 for text, Gemini 2.0 Flash for images), all served through a local
   dashboard and logged to Excel.
+- **[Project_AI_Agents_n8n](Project_AI_Agents_n8n/README.md)** — n8n workflow exports for QA
+  automation and content generation: a chat-triggered QA assistant, a Jira ticket-creation
+  agent, PRD-to-test-case generators (single ticket and CSV-batch variants) that write to
+  Google Sheets, and a 4-agent daily social-media pipeline (topic → multi-platform content →
+  image generation → sheet logging). Includes the standalone ContentForge dashboard and a
+  Testing Academy content-engine skill as local companion projects.
 
 ## Test Automation Frameworks
 
@@ -95,6 +101,15 @@ for setup.
 
 ## AI Agent Tooling (Job Search Automation)
 
+- **[JobHuntAutomation](JobHuntAutomation/README.md)** — JobHunt Copilot: a full-stack
+  dashboard (Express + TypeScript + Prisma backend, Vite + React + TypeScript + Tailwind v4
+  frontend) that fetches jobs from multiple sources (Apify/LinkedIn, JSearch, RemoteOK,
+  We Work Remotely), scores them against a candidate profile, tailors a resume and drafts a
+  cover letter/cold email per job via Groq/Anthropic, and tracks every application through a
+  drag-and-drop Kanban pipeline. A hard eligibility gate filters to remote-or-Pune,
+  full-time-permanent roles before scoring — nothing is auto-applied, the app only opens the
+  original posting. Ships with a mock mode that runs the full flow end-to-end with no API
+  keys configured.
 - **[Jobhunter/JobTrackerAI](Jobhunter/JobTrackerAI/README.md)** — Local-first job-application
   Kanban board (React 19, Vite, TypeScript, Tailwind v4, IndexedDB) tracking
   Wishlist→Applied→Follow-up→Interview→Offer, with JSON export/import and client-side
