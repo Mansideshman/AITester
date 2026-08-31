@@ -12,8 +12,8 @@ for setup.
   platform (React 18) with 9 tools spanning the QA lifecycle: JIRA→test-plan generation, test
   case generation, RICE-POT test strategy docs, release-readiness scoring, Vision-AI defect
   detection from screenshots, OpenAPI→test-suite generation, and Playwright/Cypress/Selenium
-  code + framework scaffolding. Runs entirely client-side against GROQ's free-tier LLMs (Llama
-  3.3 70B / Llama 4 Scout Vision) with automatic multi-model fallback, and pushes defects
+  code + framework scaffolding. Runs entirely client-side against GROQ's free-tier LLMs (GPT-OSS
+  120B / Qwen3 27B Vision) with automatic multi-model fallback, and pushes defects
   straight to Jira, Linear, GitHub, YouTrack, or Azure DevOps. No backend — credentials never
   leave the browser. Live at [qualiaqa.vercel.app](https://qualiaqa.vercel.app).
 - **[Project_RAG/BasicRAG](Project_RAG/BasicRAG/README.md)** — A fully-visible
