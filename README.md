@@ -16,7 +16,7 @@ for setup.
   3.3 70B / Llama 4 Scout Vision) with automatic multi-model fallback, and pushes defects
   straight to Jira, Linear, GitHub, YouTrack, or Azure DevOps. No backend — credentials never
   leave the browser. Live at [qualiaqa.vercel.app](https://qualiaqa.vercel.app).
-- **[project08_RAG/BasicRAG](project08_RAG/BasicRAG/README.md)** — A fully-visible
+- **[Project_RAG/BasicRAG](Project_RAG/BasicRAG/README.md)** — A fully-visible
   Retrieval-Augmented Generation pipeline (FastAPI + React) built from scratch: drag-and-drop
   upload of PDF/TXT/MD/DOC/DOCX, local Nomic embeddings, ChromaDB vector storage, and Groq
   answer generation, with every pipeline stage (load → chunk → embed → retrieve → generate)
@@ -24,7 +24,7 @@ for setup.
   backend (Upstash Vector) when deployed, since Vercel's function size limit can't fit
   `torch`. Live at
   [basic-rag-explorer-five.vercel.app](https://basic-rag-explorer-five.vercel.app).
-- **[project08_RAG/AdvancedRAG](project08_RAG/AdvancedRAG/README.md)** — A hybrid-retrieval
+- **[Project_RAG/AdvancedRAG](Project_RAG/AdvancedRAG/README.md)** — A hybrid-retrieval
   upgrade to BasicRAG (Flask): dense+sparse embeddings, Reciprocal Rank Fusion, a
   cross-encoder reranker, and LLM query rewriting, all streamed live via SSE across
   upload/ingest/chunk-browser/chat pages. Runs on two backends picked automatically at
@@ -33,10 +33,10 @@ for setup.
   with a synthesized 5,000-row Jira-style VWO test case corpus and an animated HTML
   explainer of the architecture. Live at
   [advanced-rag-explorer.vercel.app](https://advanced-rag-explorer.vercel.app).
-- **[project08_RAG/Langflow_RAG](project08_RAG/Langflow_RAG/README.md)** — Two exported
+- **[Project_RAG/Langflow_RAG](Project_RAG/Langflow_RAG/README.md)** — Two exported
   Langflow visual RAG flows (baseline vs. an improved multi-branch chunking strategy) plus a
   500-row sample test-case dataset used to exercise them.
-- **[project9_QABuddyAI](project9_QABuddyAI/README.md)** — A self-hosted, multi-source
+- **[Project_QABuddyAI](Project_QABuddyAI/README.md)** — A self-hosted, multi-source
   hybrid-RAG QA assistant: ask one question, get a cited answer grounded across a Selenium
   framework, a Playwright framework, a 5,000-row test-case repository, JIRA history, PRDs,
   meeting notes, and Jenkins CI logs. Reuses AdvancedRAG's `bge-m3` dense+sparse + Qdrant +
@@ -45,14 +45,14 @@ for setup.
   idempotent per-source ingestion. Ships with a React + TypeScript + shadcn/ui dashboard: a
   chat page with a live SSE-streamed rewrite→retrieve→rerank→generate pipeline, and a sources
   page with file-upload ingestion and per-source status.
-- **[project_07_AI_Agents_LangFlow](project_07_AI_Agents_LangFlow/README.md)** — QA agents
+- **[Project_AI_Agents_LangFlow](Project_AI_Agents_LangFlow/README.md)** — QA agents
   built on Langflow's low-code flow engine, each exposed as a REST endpoint and fronted by a
   React UI: a **Flaky Test Analyzer** that diffs two Playwright `results.json` runs and
   separates genuine flakiness from real regressions, and an **API Contract Validator** that
   checks a live endpoint's response against a JSON Schema via an OpenRouter-hosted DeepSeek
   model. Includes a documented fix for a real LangFlow persistence bug (SQLite DB silently
   resetting without an explicit `LANGFLOW_DATABASE_URL` override).
-- **[project6_social_media_AI_agent/social_ai_agent](project6_social_media_AI_agent/social_ai_agent/README.md)**
+- **[Project_social_media_AI_agent/social_ai_agent](Project_social_media_AI_agent/social_ai_agent/README.md)**
   — ContentForge: an automated content-generation pipeline (Next.js 14) that turns one topic
   into a LinkedIn post, Medium article, Instagram/YouTube scripts, and matching AI-generated
   images (Groq Llama 3.3 for text, Gemini 2.0 Flash for images), all served through a local
@@ -66,31 +66,31 @@ for setup.
 
 ## Test Automation Frameworks
 
-- **[Project2_Selenium_framework](Project2_Selenium_framework/Advance_Selenium_Framework/README.md)** —
+- **[Project_Selenium_framework](Project_Selenium_framework/Advance_Selenium_Framework/README.md)** —
   Enterprise-style Selenium + Java + Maven + TestNG framework for CRM (Salesforce-style)
   applications: Page Object Model, driver lifecycle management, Log4j2 logging, automatic
   failure screenshots, plus built-in API (REST Assured) and database validation utilities —
   not just UI testing.
-- **[Project3_RestAssuredAPIFramework](Project3_RestAssuredAPIFramework/README.md)** —
+- **[Project_RestAssuredAPIFramework](Project_RestAssuredAPIFramework/README.md)** —
   Production-style REST Assured + TestNG API automation framework (Java) with POJO
   request/response models, custom assertion wrappers, JavaFaker test-data generation, and
   Allure reporting.
   ```bash
-  cd Project3_RestAssuredAPIFramework
+  cd Project_RestAssuredAPIFramework
   mvn test
   ```
-- **[Project4_PlaywrightAPIAutomationFramework](Project4_PlaywrightAPIAutomationFramework/README.md)**
+- **[Project_PlaywrightAPIAutomationFramework](Project_PlaywrightAPIAutomationFramework/README.md)**
   — Playwright-native API testing framework (TypeScript) using `APIRequestContext`, domain
   clients, and fixtures.
   ```bash
-  cd Project4_PlaywrightAPIAutomationFramework
+  cd Project_PlaywrightAPIAutomationFramework
   npm install && npx playwright install
   npm run test:api
   ```
 
 ## QA Strategy & Prompt Engineering
 
-- **[Project1_TC_Generator](Project1_TC_Generator)** — The RICE-POT prompt framework
+- **[Project_TC_Generator](Project_TC_Generator)** — The RICE-POT prompt framework
   (Role, Instructions, Context, Example, Parameters, Output, Tone) for generating
   enterprise-grade, traceable functional and non-functional test cases from a PRD, with a
   worked example against the Restful-Booker API.

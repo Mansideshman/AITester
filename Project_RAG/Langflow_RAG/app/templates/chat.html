@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Chat · Naive RAG Explorer{% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Ask about the VWO test suite</h1>
+  <p>500 QA test cases, retrieved with a single embedding search — no rewriting, fusion, or reranking. Try: "How do we test A/B experiment creation with valid data?"</p>
+</div>
+
+<div class="card" style="max-height:65vh;overflow-y:auto" id="chat-scroll">
+  <div class="chat-log" id="chat-log">
+    <div class="empty-state" id="chat-empty">No messages yet.</div>
+  </div>
+</div>
+
+<div class="chat-input-row">
+  <input type="text" id="chat-input" placeholder="Ask a question…">
+  <button class="btn" id="chat-send">Ask</button>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/chat.js"></script>
+{% endblock %}

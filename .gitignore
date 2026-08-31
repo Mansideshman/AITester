@@ -40,3 +40,8 @@ target/
 # OS files
 .DS_Store
 Thumbs.db
+.venv/
+
+# Langflow runtime state (DB holds decrypted API keys/component secrets, plus 85MB+ size)
+Project_AI_Agents_LangFlow/langflow_data/
+Project_AI_Agents_LangFlow/langflow_data_fresh_backup_*/
