@@ -1,0 +1,4 @@
+crewai
+python-dotenv
+pysqlite3-binary
+litellm
