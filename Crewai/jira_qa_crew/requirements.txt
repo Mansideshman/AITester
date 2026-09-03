@@ -1,0 +1,10 @@
+crewai
+crewai-tools[mcp]
+python-dotenv
+pysqlite3-binary
+litellm
+pyyaml
+pydantic
+requests
+streamlit
+pytest

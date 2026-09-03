@@ -63,11 +63,15 @@ for setup.
   Google Sheets, and a 4-agent daily social-media pipeline (topic → multi-platform content →
   image generation → sheet logging). Includes the standalone ContentForge dashboard and a
   Testing Academy content-engine skill as local companion projects.
-- **[Crewai](Crewai/README.md)** — CrewAI multi-agent experiments on Groq (via LiteLLM):
-  a working single-agent test-plan sanity check, a researcher→writer bug-prevention-checklist
-  crew, and an in-progress bug-triage crew. Also holds the build spec for a planned Jira QA
-  Crew Streamlit app (4-agent pipeline: Jira Analyst → Test Plan Writer → Test Case Writer →
-  Playwright Coder, with Jira MCP + REST fallback).
+- **[Crewai](Crewai/README.md)** — CrewAI multi-agent experiments on Groq (via LiteLLM), plus
+  **[jira_qa_crew](Crewai/jira_qa_crew/README.md)**: a working Jira QA Crew Streamlit app —
+  a 4-agent pipeline (Jira Analyst → Test Plan Writer → Test Case Writer → Playwright Coder)
+  that turns Jira ticket IDs into a requirements analysis, 12-section test plan, traceable
+  test cases, Playwright TypeScript automation, and a requirements-to-tests traceability
+  matrix. Jira access goes through a gateway that tries MCP first and falls back to REST (or
+  demo fixtures), with every artifact rendered deterministically from validated Pydantic
+  objects. 36 passing tests. Also has a single-agent test-plan sanity check, a
+  researcher→writer bug-prevention-checklist crew, and an in-progress bug-triage crew.
 
 ## Test Automation Frameworks
 

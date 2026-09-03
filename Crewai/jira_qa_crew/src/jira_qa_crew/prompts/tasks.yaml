@@ -1,0 +1,83 @@
+analyze_ticket:
+  description: >
+    Fetch Jira ticket {ticket_key} using the fetch_jira_issue tool (call it exactly
+    once, with ticket_key="{ticket_key}"). From its fields, produce a
+    RequirementAnalysis:
+      - Copy summary, description, issue_type, status, priority, labels, components,
+        parent, subtasks, and linked_issues from the fetched fields.
+      - Extract explicit functional_requirements, non_functional_requirements,
+        business_rules, dependencies, constraints, and risks from the description
+        and acceptance-criteria text.
+      - Turn every acceptance criterion you can find into an AcceptanceCriterion
+        with a stable id like AC-001, AC-002, ... in reading order.
+      - Turn every distinct requirement (explicit or clearly implied) into a
+        RequirementItem with a stable id like REQ-001, REQ-002, ..., tagging
+        source="EXPLICIT" only when the ticket states it directly, and
+        source="INFERRED" when you derived it from context.
+      - List anything the ticket clearly needs but doesn't specify in
+        missing_information, and anything ambiguous in open_questions.
+      - Set the `source` field to the source reported by the tool response
+        (MCP, REST, or DEMO) and `ticket_key` to {ticket_key}.
+    Never invent a requirement or acceptance criterion the ticket doesn't support.
+  expected_output: >
+    A single valid RequirementAnalysis JSON object matching the given schema.
+
+write_test_plan:
+  description: >
+    Using the RequirementAnalysis above for ticket {ticket_key}, write a TestPlan
+    with `ticket_key` set to {ticket_key} and a `sections` dict containing exactly
+    these 12 keys, each with a specific, non-generic markdown body grounded in the
+    actual requirements and acceptance criteria (not filler):
+      executive_summary, test_objectives, in_scope, out_of_scope,
+      requirements_coverage, test_strategy, test_environment,
+      test_data_requirements, high_level_scenarios, entry_exit_criteria,
+      risks_dependencies_assumptions, execution_and_reporting.
+    Also produce a `scenarios` list of TestScenario objects (id like SCN-001,
+    description, requirement_refs) -- every scenario's requirement_refs must
+    name at least one REQ-* or AC-* id that actually exists in the requirement
+    analysis above.
+  expected_output: >
+    A single valid TestPlan JSON object matching the given schema.
+
+write_test_cases:
+  description: >
+    Using the RequirementAnalysis and TestPlan above for ticket {ticket_key},
+    expand the plan's scenarios into a TestCaseSuite (`ticket_key`={ticket_key})
+    of detailed TestCase objects. For each test case:
+      - id like {ticket_key}-TC-001, {ticket_key}-TC-002, ... (sequential).
+      - requirement_refs / acceptance_criteria_refs naming real REQ-*/AC-* ids
+        from the requirement analysis.
+      - concrete preconditions, test_data, ordered steps, and one expected_result.
+      - an honest automation_candidate (Yes/No/Partial) with automation_rationale.
+    Cover only the categories that genuinely apply to this ticket (happy path,
+    negative, boundary, validation, error handling, state transitions,
+    permissions, data integrity, API/contract, accessibility, cross-browser,
+    regression, recovery) -- do not force irrelevant categories in. Every
+    explicit acceptance criterion must get at least one positive test case, and
+    a negative or boundary test case wherever that's logically applicable.
+  expected_output: >
+    A single valid TestCaseSuite JSON object matching the given schema.
+
+generate_playwright:
+  description: >
+    Using the TestCaseSuite above for ticket {ticket_key}, generate a
+    PlaywrightBundle (`ticket_key`={ticket_key}) automating only the test cases
+    whose automation_candidate is "Yes" or "Partial". For each automated file:
+      - Use TypeScript + @playwright/test, test.describe/test/test.step blocks
+        named after the ticket key and test case ids.
+      - Prefer getByRole/getByLabel/getByPlaceholder/getByTestId; never
+        page.waitForTimeout(); never a hard-coded secret, credential, or
+        environment-specific URL -- use baseURL/env vars for anything
+        environment-specific instead.
+      - Add a comment above each test naming the ticket key, test case id, and
+        requirement/acceptance-criteria ids it traces to.
+      - If the ticket doesn't give enough UI detail (real selectors, endpoints,
+        payload fields) to write an execution-ready test, still produce a
+        compilable scaffold with clearly marked TODO placeholders instead of
+        inventing selectors, and explain what's missing in `notes`.
+    Set `automated_test_case_ids` to the test case ids you actually automated,
+    and `readiness` to READY only if every automated file is execution-ready
+    with no invented details; otherwise NEEDS_CONFIGURATION.
+  expected_output: >
+    A single valid PlaywrightBundle JSON object matching the given schema, with
+    each file's full contents in `files[].content`.

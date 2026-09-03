@@ -26,13 +26,20 @@ cp .env.example .env   # set GROQ_API_KEY, GROQ_MODEL, GROQ_BASE_URL
   report. Agents and tasks are currently stubs (`Agent()`, `Task()`) — not yet runnable.
 - **QABugTriageCreawai_prod.py** — Placeholder for the production version of the bug
   triage crew; not yet started.
-- **QA_Pipeline.md** — Build spec (RICE-POT prompt) for a planned **Jira QA Crew**
-  Streamlit app: a 4-agent CrewAI pipeline (Jira Analyst → Test Plan Writer → Test Case
-  Writer → Playwright Coder) that turns Jira ticket IDs into a full QA artifact pack
-  (test plan, test cases, traceability matrix, Playwright TypeScript tests), with Jira MCP
-  as primary access and Jira REST API as fallback. Not yet implemented.
+- **QA_Pipeline.md** — Build spec (RICE-POT prompt) for **Jira QA Crew** (see below).
+- **[jira_qa_crew/](jira_qa_crew/README.md)** — The built-out implementation of that spec:
+  a 4-agent CrewAI pipeline (Jira Analyst → Test Plan Writer → Test Case Writer → Playwright
+  Coder) behind a Streamlit UI, turning Jira ticket IDs into a requirements analysis,
+  12-section test plan, traceable test cases, Playwright TypeScript automation, and a
+  requirements-to-tests traceability matrix. Jira access goes through a gateway that tries
+  MCP first and falls back to REST (or demo fixtures in `DEMO_MODE`), and every artifact is
+  rendered deterministically from validated Pydantic objects — never parsed back out of LLM
+  prose. 36 passing tests (gateway fallback, validation, traceability, rendering, full
+  pipeline wiring, all with the LLM/Jira layer mocked) plus a real-Groq smoke script.
 
 ## Status
 
-Early-stage / exploratory. `testanalystagent.py` and `research_write_AI_agents.py` are
-working examples; the bug-triage crew and Jira QA Crew app are in progress.
+`testanalystagent.py` and `research_write_AI_agents.py` are working sanity-check examples;
+`Build_QABugTriageCrewai.py` is still a stub. **jira_qa_crew/** is the one non-trivial build
+here — core pipeline done and tested; Docker/CI/full deployment docs deliberately deferred
+(see its own README's Status section).

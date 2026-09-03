@@ -1,0 +1,33 @@
+{
+  "VWO-48": {
+    "summary": "Shopping cart total shows $0.00 after applying a discount code",
+    "description_text": "When a customer adds 3 or more items to the cart (subtotal > $50) and applies discount code SAVE20 (20% off), the displayed cart total drops to $0.00 instead of showing the discounted price. The bug only reproduces with 3+ items; carts with 1-2 items compute the discount correctly. It started after the v2.4.1 deployment. No errors appear in the browser console, and the backend API response already contains the correct discounted amount -- the bug is in how the frontend renders that value.\n\nAcceptance Criteria:\n- Given a cart with 3+ items and a valid discount code, the displayed total equals subtotal minus the discount.\n- Given a cart with 1-2 items and a valid discount code, the displayed total is unaffected (already correct).\n- Given an invalid or expired discount code, the total is unchanged and an error message is shown.\n- The cart total must never render as $0.00 while the cart is non-empty.",
+    "issue_type": "Bug",
+    "status": "In Progress",
+    "priority": "High",
+    "labels": ["cart", "pricing", "regression"],
+    "components": ["Checkout"],
+    "parent": null,
+    "subtasks": [],
+    "linked_issues": ["VWO-49"],
+    "acceptance_criteria_text": "",
+    "comments": [
+      "QA: Confirmed reproducible in Chrome 120 and Firefox 121 on staging.",
+      "Dev: Looks like a rounding/parsing issue in the cart total formatter introduced in the v2.4.1 refactor of CartSummary.tsx."
+    ]
+  },
+  "VWO-49": {
+    "summary": "Add server-side validation for discount code expiry",
+    "description_text": "Currently expired discount codes are only rejected client-side. The API should reject expired codes server-side as well so that a stale client (or a direct API call) cannot apply an expired discount.\n\nAcceptance Criteria:\n- Applying an expired discount code via the API returns a 400 with a clear error code.\n- Applying an expired discount code never changes the order total.\n- Existing valid discount codes continue to work unchanged.",
+    "issue_type": "Story",
+    "status": "To Do",
+    "priority": "Medium",
+    "labels": ["pricing", "backend"],
+    "components": ["Checkout", "API"],
+    "parent": null,
+    "subtasks": [],
+    "linked_issues": ["VWO-48"],
+    "acceptance_criteria_text": "",
+    "comments": []
+  }
+}
