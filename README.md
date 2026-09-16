@@ -72,6 +72,8 @@ for setup.
   demo fixtures), with every artifact rendered deterministically from validated Pydantic
   objects. 36 passing tests. Also has a single-agent test-plan sanity check, a
   researcher→writer bug-prevention-checklist crew, and an in-progress bug-triage crew.
+- **[DeepEval](DeepEvaluation/README.md)** — LLM evaluation tests using DeepEval v4, judged by
+  a free-tier Groq model (`qwen/qwen3.8-27b`) via LiteLLM instead of a paid OpenAI judge.
 
 ## Test Automation Frameworks
 
